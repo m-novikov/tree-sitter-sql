@@ -112,8 +112,14 @@ module.exports = grammar({
       seq(
         kw("AS"),
         choice(
-          seq("$$", $.select_statement, optional(";"), "$$"),
           seq("'", $.select_statement, optional(";"), "'"),
+
+          seq(
+            $._dollar_identifier,
+            $.select_statement,
+            optional(";"),
+            $._dollar_identifier,
+          ),
         ),
       ),
     create_schema_statement: $ =>
@@ -269,6 +275,7 @@ module.exports = grammar({
         optional($.group_by_clause),
         optional($.order_by_clause),
       ),
+
     group_by_clause_body: $ => commaSep1($._expression),
     group_by_clause: $ => seq(kw("GROUP BY"), $.group_by_clause_body),
     order_by_clause_body: $ => commaSep1($._expression),
@@ -280,7 +287,7 @@ module.exports = grammar({
       choice($._expression, alias($._aliased_expression, $.alias)),
     select_clause_body: $ => commaSep1($._aliasable_expression),
     select_clause: $ =>
-      prec.left(seq(kw("SELECT"), optional($.select_clause_body))),
+      prec.right(seq(kw("SELECT"), optional($.select_clause_body))),
     from_clause: $ => seq(kw("FROM"), commaSep1($._aliasable_expression)),
     join_type: $ =>
       seq(
@@ -406,7 +413,11 @@ module.exports = grammar({
     string: $ =>
       choice(
         seq("'", field("content", /[^']*/), "'"),
-        seq("$$", field("content", /(\$?[^$]+)+/), "$$"), // FIXME empty string test, maybe read a bit more into c comments answer
+        seq(
+          $._dollar_identifier,
+          field("content", /(\$?[^$]+)+/),
+          $._dollar_identifier,
+        ), // FIXME empty string test, maybe read a bit more into c comments answer
       ),
     field_access: $ => seq($.identifier, "->>", $.string),
     ordered_expression: $ =>
@@ -463,6 +474,7 @@ module.exports = grammar({
         $.argument_reference,
         $.select_subexpression,
       ),
+    _dollar_identifier: $ => prec(-1, seq("$", optional($._identifier), "$")),
   },
 });
 

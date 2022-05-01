@@ -1613,9 +1613,17 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
         {
           "type": "select_statement",
           "named": true
@@ -3033,7 +3041,21 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "time_zone_constraint",
@@ -3531,10 +3553,6 @@
   },
   {
     "type": "$",
-    "named": false
-  },
-  {
-    "type": "$$",
     "named": false
   },
   {
