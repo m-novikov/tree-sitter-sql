@@ -738,7 +738,12 @@ module.exports = grammar({
       ),
     where_clause: $ => seq(kw("WHERE"), $._expression),
     _aliased_expression: $ =>
-      seq($._expression, optional(kw("AS")), $.identifier),
+      seq(
+        $._expression,
+        optional(kw("AS")),
+        $.identifier,
+        optional(seq("(", commaSep1($.identifier), ")")),
+      ),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, alias($._aliased_expression, $.alias))),
     select_clause_body: $ =>
@@ -849,11 +854,24 @@ module.exports = grammar({
     parameters: $ => seq("(", commaSep1($.parameter), ")"),
     function_call: $ =>
       seq(
+        optional(kw("LATERAL")),
         field("function", $._identifier),
         "(",
-        optional(field("arguments", commaSep1($._expression))),
+        optional(field("arguments", $._function_call_arguments)),
         ")",
+        optional($.within_group_clause),
+        optional($.filter_clause),
       ),
+    _function_call_arguments: $ =>
+      seq(
+        optional(choice(kw("ALL"), kw("DISTINCT"))),
+        commaSep1($._expression),
+        optional($.order_by_clause),
+      ),
+    within_group_clause: $ =>
+      seq(kw("WITHIN GROUP"), "(", $.order_by_clause, ")"),
+    filter_clause: $ => seq(kw("FILTER"), "(", $.where_clause, ")"),
+
     _parenthesized_expression: $ => seq("(", $._expression, ")"),
     is_expression: $ =>
       prec.left(
