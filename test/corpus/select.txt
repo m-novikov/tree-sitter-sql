@@ -1331,3 +1331,45 @@ SELECT ARRAY[]::integer[];
           (array_type
             (type
               (identifier))))))))
+
+================================================================================
+SELECT row constructors
+================================================================================
+
+SELECT ROW(1,2.5,'this is a test');
+SELECT ROW(t.*, 42) FROM t;
+SELECT ROW(t.f1, t.f2, 42) FROM t;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (number)
+          (number)
+          (string
+            (content))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (asterisk_expression
+            (identifier))
+          (number))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (dotted_name
+            (identifier)
+            (identifier))
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number))))
+    (from_clause
+      (identifier))))

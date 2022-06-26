@@ -1248,6 +1248,8 @@ module.exports = grammar({
     array_element_access: $ =>
       seq(choice($.identifier, $.argument_reference), "[", $._expression, "]"),
 
+    row_constructor: $ => seq(kw("ROW"), "(", commaSep($._expression), ")"),
+
     unary_expression: $ =>
       prec(
         PREC.unary,
@@ -1320,6 +1322,7 @@ module.exports = grammar({
         $.at_time_zone_expression,
         $.rows_from_expression,
         $.array_constructor,
+        $.row_constructor,
       ),
   },
 });
