@@ -1,5 +1,6 @@
 {
   "name": "sql",
+  "word": "_unquoted_identifier",
   "rules": {
     "source_file": {
       "type": "REPEAT",
@@ -11607,6 +11608,10 @@
             {
               "type": "SYMBOL",
               "name": "function_call"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_constructor"
             }
           ]
         },
@@ -11621,6 +11626,95 @@
             "type": "SYMBOL",
             "name": "_type"
           }
+        }
+      ]
+    },
+    "array_constructor": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[aA][rR][rR][aA][yY]"
+              },
+              "named": false,
+              "value": "ARRAY"
+            }
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_expression"
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_expression"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "select_statement"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -12141,6 +12235,10 @@
         {
           "type": "SYMBOL",
           "name": "rows_from_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_constructor"
         }
       ]
     }

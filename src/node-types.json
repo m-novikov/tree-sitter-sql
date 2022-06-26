@@ -262,6 +262,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -362,6 +366,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -487,6 +495,117 @@
     "fields": {}
   },
   {
+    "type": "array_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
+          "type": "select_statement",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "array_element_access",
     "named": true,
     "fields": {},
@@ -508,6 +627,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -637,6 +760,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -759,6 +886,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -877,6 +1008,10 @@
           },
           {
             "type": "argument_reference",
+            "named": true
+          },
+          {
+            "type": "array_constructor",
             "named": true
           },
           {
@@ -1080,6 +1215,10 @@
             "named": true
           },
           {
+            "type": "array_constructor",
+            "named": true
+          },
+          {
             "type": "array_element_access",
             "named": true
           },
@@ -1186,6 +1325,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -1327,6 +1470,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -1427,6 +1574,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -1634,6 +1785,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -2074,6 +2229,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -2499,6 +2658,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -2638,6 +2801,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -2738,6 +2905,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -2890,6 +3061,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -3134,6 +3309,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -3291,6 +3470,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -3445,6 +3628,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -3725,6 +3912,10 @@
             "named": true
           },
           {
+            "type": "array_constructor",
+            "named": true
+          },
+          {
             "type": "array_element_access",
             "named": true
           },
@@ -3930,6 +4121,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -4060,6 +4255,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -4168,6 +4367,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -4272,6 +4475,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -4460,6 +4667,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -4568,6 +4779,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -4694,6 +4909,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -4799,6 +5018,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -5100,6 +5323,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -5215,6 +5442,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -5361,6 +5592,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -5585,6 +5820,10 @@
             "named": true
           },
           {
+            "type": "array_constructor",
+            "named": true
+          },
+          {
             "type": "array_element_access",
             "named": true
           },
@@ -5686,6 +5925,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -5798,6 +6041,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -5985,6 +6232,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -6214,6 +6465,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -6891,6 +7146,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -7102,6 +7361,10 @@
             "named": true
           },
           {
+            "type": "array_constructor",
+            "named": true
+          },
+          {
             "type": "array_element_access",
             "named": true
           },
@@ -7241,6 +7504,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
@@ -7559,6 +7826,10 @@
             "named": true
           },
           {
+            "type": "array_constructor",
+            "named": true
+          },
+          {
             "type": "array_element_access",
             "named": true
           },
@@ -7802,6 +8073,10 @@
           "named": true
         },
         {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
           "type": "array_element_access",
           "named": true
         },
@@ -8003,6 +8278,10 @@
         },
         {
           "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
           "named": true
         },
         {
