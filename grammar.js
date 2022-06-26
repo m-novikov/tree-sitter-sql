@@ -78,6 +78,7 @@ module.exports = grammar({
     $._dollar_quoted_string_content,
     $._dollar_quoted_string_end_tag,
   ],
+  word: $ => $._unquoted_identifier,
 
   rules: {
     source_file: $ => repeat($._statement),
@@ -1225,9 +1226,19 @@ module.exports = grammar({
           $.string,
           $._identifier,
           $.function_call,
+          $.array_constructor,
         ),
         "::",
         field("type", $._type),
+      ),
+
+    array_constructor: $ =>
+      seq(
+        token(prec(1, kw("ARRAY"))),
+        choice(
+          seq("[", commaSep($._expression), "]"),
+          seq("(", $.select_statement, ")"),
+        ),
       ),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
@@ -1309,6 +1320,7 @@ module.exports = grammar({
         $.select_subexpression,
         $.at_time_zone_expression,
         $.rows_from_expression,
+        $.array_constructor,
       ),
   },
 });

@@ -1281,3 +1281,53 @@ FROM foo;
           (identifier))))
     (from_clause
       (identifier))))
+
+================================================================================
+SELECT array constructors
+================================================================================
+
+SELECT ARRAY[1, 2, 3+4];
+SELECT ARRAY(SELECT a FROM tb1);
+SELECT ARRAY[ARRAY[1,2], ARRAY[3,4]];
+SELECT ARRAY[]::integer[];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (number)
+          (number)
+          (binary_expression
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)))
+            (from_clause
+              (identifier)))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (array_constructor
+            (number)
+            (number))
+          (array_constructor
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (type_cast
+          (array_constructor)
+          (array_type
+            (type
+              (identifier))))))))
