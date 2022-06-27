@@ -23,91 +23,15 @@
       "required": true,
       "types": [
         {
-          "type": "FALSE",
+          "type": "column_definitions",
           "named": true
         },
         {
-          "type": "NULL",
-          "named": true
-        },
-        {
-          "type": "TRUE",
-          "named": true
-        },
-        {
-          "type": "argument_reference",
-          "named": true
-        },
-        {
-          "type": "array_element_access",
-          "named": true
-        },
-        {
-          "type": "asterisk_expression",
-          "named": true
-        },
-        {
-          "type": "at_time_zone_expression",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "boolean_expression",
-          "named": true
-        },
-        {
-          "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "function_call",
+          "type": "column_names",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "in_expression",
-          "named": true
-        },
-        {
-          "type": "interval_expression",
-          "named": true
-        },
-        {
-          "type": "is_expression",
-          "named": true
-        },
-        {
-          "type": "json_access",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "select_subexpression",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "type_cast",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
           "named": true
         }
       ]
@@ -394,6 +318,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -490,6 +418,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -635,6 +567,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -757,6 +693,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -875,6 +815,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -989,6 +933,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "rows_from_expression",
             "named": true
           },
           {
@@ -1188,6 +1136,10 @@
             "named": true
           },
           {
+            "type": "rows_from_expression",
+            "named": true
+          },
+          {
             "type": "select_subexpression",
             "named": true
           },
@@ -1290,6 +1242,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -1427,6 +1383,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -1526,6 +1486,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -1575,6 +1539,36 @@
           "type": "dotted_name",
           "named": true
         },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "column_definitions",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "table_column",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "column_names",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "identifier",
           "named": true
@@ -1696,6 +1690,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -2132,6 +2130,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -2557,6 +2559,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -2688,6 +2694,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -2784,6 +2794,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -2932,6 +2946,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -3172,6 +3190,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -3325,6 +3347,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -3470,6 +3496,10 @@
           "named": true
         },
         {
+          "type": "join_clause",
+          "named": true
+        },
+        {
           "type": "json_access",
           "named": true
         },
@@ -3478,11 +3508,19 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "tablesample_clause",
           "named": true
         },
         {
@@ -3747,6 +3785,10 @@
             "named": true
           },
           {
+            "type": "rows_from_expression",
+            "named": true
+          },
+          {
             "type": "select_subexpression",
             "named": true
           },
@@ -3789,6 +3831,10 @@
         },
         {
           "type": "over_clause",
+          "named": true
+        },
+        {
+          "type": "with_ordinality",
           "named": true
         },
         {
@@ -3952,6 +3998,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -4066,6 +4116,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -4167,6 +4221,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -4278,6 +4336,10 @@
         },
         {
           "type": "ordered_expression",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -4458,6 +4520,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -4482,7 +4548,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "FALSE",
@@ -4553,6 +4619,14 @@
           "named": true
         },
         {
+          "type": "join_clause",
+          "named": true
+        },
+        {
+          "type": "join_condition",
+          "named": true
+        },
+        {
           "type": "join_type",
           "named": true
         },
@@ -4562,6 +4636,121 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tablesample_clause",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "using_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "join_condition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -4666,6 +4855,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -4963,6 +5156,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -5074,6 +5271,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -5219,6 +5420,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -5348,6 +5553,118 @@
     }
   },
   {
+    "type": "repeatable_clause",
+    "named": true,
+    "fields": {
+      "seed": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "FALSE",
+            "named": true
+          },
+          {
+            "type": "NULL",
+            "named": true
+          },
+          {
+            "type": "TRUE",
+            "named": true
+          },
+          {
+            "type": "argument_reference",
+            "named": true
+          },
+          {
+            "type": "array_element_access",
+            "named": true
+          },
+          {
+            "type": "asterisk_expression",
+            "named": true
+          },
+          {
+            "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "boolean_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "in_expression",
+            "named": true
+          },
+          {
+            "type": "interval_expression",
+            "named": true
+          },
+          {
+            "type": "is_expression",
+            "named": true
+          },
+          {
+            "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "rows_from_expression",
+            "named": true
+          },
+          {
+            "type": "select_subexpression",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "type_cast",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "return_statement",
     "named": true,
     "fields": {},
@@ -5425,6 +5742,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -5540,6 +5861,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -5553,6 +5878,29 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rows_from_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "with_ordinality",
           "named": true
         }
       ]
@@ -5696,6 +6044,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -5728,10 +6080,6 @@
         },
         {
           "type": "group_by_clause",
-          "named": true
-        },
-        {
-          "type": "join_clause",
           "named": true
         },
         {
@@ -5922,6 +6270,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -6337,6 +6689,25 @@
     }
   },
   {
+    "type": "tablesample_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "repeatable_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "tablespace_hint",
     "named": true,
     "fields": {},
@@ -6576,6 +6947,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -6783,6 +7158,10 @@
             "named": true
           },
           {
+            "type": "rows_from_expression",
+            "named": true
+          },
+          {
             "type": "select_subexpression",
             "named": true
           },
@@ -6918,6 +7297,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -7232,6 +7615,10 @@
             "named": true
           },
           {
+            "type": "rows_from_expression",
+            "named": true
+          },
+          {
             "type": "select_subexpression",
             "named": true
           },
@@ -7343,17 +7730,20 @@
   {
     "type": "using_clause",
     "named": true,
-    "fields": {
-      "method": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -7465,6 +7855,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -7668,6 +8062,10 @@
           "named": true
         },
         {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
           "type": "select_subexpression",
           "named": true
         },
@@ -7742,6 +8140,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "with_ordinality",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "within_group_clause",
@@ -8363,6 +8766,10 @@
     "named": false
   },
   {
+    "type": "NATURAL",
+    "named": false
+  },
+  {
     "type": "NEW",
     "named": false
   },
@@ -8519,6 +8926,10 @@
     "named": false
   },
   {
+    "type": "REPEATABLE",
+    "named": false
+  },
+  {
     "type": "RESTRICT",
     "named": false
   },
@@ -8556,6 +8967,10 @@
   },
   {
     "type": "ROWS",
+    "named": false
+  },
+  {
+    "type": "ROWS_FROM",
     "named": false
   },
   {
@@ -8632,6 +9047,10 @@
   },
   {
     "type": "TABLE",
+    "named": false
+  },
+  {
+    "type": "TABLESAMPLE",
     "named": false
   },
   {
@@ -8764,6 +9183,10 @@
   },
   {
     "type": "WITH_GRANT_OPTION",
+    "named": false
+  },
+  {
+    "type": "WITH_ORDINALITY",
     "named": false
   },
   {

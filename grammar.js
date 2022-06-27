@@ -766,7 +766,11 @@ module.exports = grammar({
         choice(seq(kw("AS"), $.select_statement), $.table_parameters),
         optional(kw("WITHOUT OIDS")),
       ),
-    using_clause: $ => seq(kw("USING"), field("method", $.identifier)),
+    using_clause: $ =>
+      seq(
+        kw("USING"),
+        choice($.identifier, seq("(", commaSep1($._identifier), ")")),
+      ),
     index_table_parameters: $ =>
       seq(
         "(",
@@ -833,7 +837,6 @@ module.exports = grammar({
         seq(
           $.select_clause,
           optional($.from_clause),
-          optional(repeat($.join_clause)),
           optional($.where_clause),
           optional($.group_by_clause),
           optional(commaSep1($.window_clause)),
@@ -908,15 +911,19 @@ module.exports = grammar({
         kw("ONLY"),
       ),
     where_clause: $ => seq(kw("WHERE"), $._expression),
-    _aliased_expression: $ =>
-      seq(
-        $._expression,
-        optional(kw("AS")),
-        $.identifier,
-        optional(seq("(", commaSep1($.identifier), ")")),
+    alias: $ =>
+      choice(
+        seq(
+          $.identifier,
+          optional(choice($.column_names, $.column_definitions)),
+        ),
+        $.column_definitions,
       ),
+    _aliased_expression: $ => seq($._expression, optional(kw("AS")), $.alias),
+    column_names: $ => seq("(", commaSep1($.identifier), ")"),
+    column_definitions: $ => seq("(", commaSep1($.table_column), ")"),
     _aliasable_expression: $ =>
-      prec.right(choice($._expression, alias($._aliased_expression, $.alias))),
+      prec.right(choice($._expression, $._aliased_expression)),
     select_clause_body: $ =>
       commaSep1(
         seq(
@@ -926,7 +933,42 @@ module.exports = grammar({
       ),
     select_clause: $ =>
       prec.right(seq(kw("SELECT"), optional($.select_clause_body))),
-    from_clause: $ => seq(kw("FROM"), commaSep1($._aliasable_expression)),
+    from_clause: $ => seq(kw("FROM"), commaSep1($._from_item)),
+    _from_item: $ =>
+      choice(
+        seq(
+          optional(kw("ONLY")),
+          $._aliasable_expression,
+          optional($.tablesample_clause),
+        ),
+        seq("(", $.join_clause, ")"),
+        $.join_clause,
+      ),
+    tablesample_clause: $ =>
+      seq(kw("TABLESAMPLE"), $.function_call, optional($.repeatable_clause)),
+    repeatable_clause: $ =>
+      seq(kw("REPEATABLE"), "(", field("seed", $._expression), ")"),
+    rows_from_expression: $ =>
+      prec.right(
+        seq(
+          optional(kw("LATERAL")),
+          kw("ROWS FROM"),
+          "(",
+          commaSep1(seq($.function_call, optional(seq(kw("AS"), $.alias)))),
+          ")",
+          optional($.with_ordinality),
+        ),
+      ),
+
+    join_clause: $ =>
+      seq(
+        $._from_item,
+        optional(kw("NATURAL")),
+        optional($.join_type),
+        kw("JOIN"),
+        $._from_item,
+        choice($.join_condition, $.using_clause),
+      ),
     join_type: $ =>
       seq(
         choice(
@@ -937,14 +979,8 @@ module.exports = grammar({
           ),
         ),
       ),
-    join_clause: $ =>
-      seq(
-        optional($.join_type),
-        kw("JOIN"),
-        $._aliasable_expression,
-        kw("ON"),
-        $._expression,
-      ),
+    join_condition: $ => seq(kw("ON"), $._expression),
+
     select_subexpression: $ =>
       prec(1, seq(optional(kw("LATERAL")), "(", $.select_statement, ")")),
 
@@ -1030,15 +1066,19 @@ module.exports = grammar({
         optional($.check_constraint),
       ),
     function_call: $ =>
-      seq(
-        optional(kw("LATERAL")),
-        field("function", $._identifier),
-        "(",
-        optional(field("arguments", $._function_call_arguments)),
-        ")",
-        optional($.within_group_clause),
-        optional($.filter_clause),
-        optional($.over_clause),
+      prec.right(
+        1,
+        seq(
+          optional(kw("LATERAL")),
+          field("function", $._identifier),
+          "(",
+          optional(field("arguments", $._function_call_arguments)),
+          ")",
+          optional($.with_ordinality),
+          optional($.within_group_clause),
+          optional($.filter_clause),
+          optional($.over_clause),
+        ),
       ),
     _function_call_arguments: $ =>
       seq(
@@ -1095,6 +1135,7 @@ module.exports = grammar({
 
     _parenthesized_expression: $ =>
       prec.left(PREC.unary, seq("(", $._expression, ")")),
+    with_ordinality: $ => kw("WITH ORDINALITY"),
     is_expression: $ =>
       prec.left(
         PREC.comparative,
@@ -1267,6 +1308,7 @@ module.exports = grammar({
         $.argument_reference,
         $.select_subexpression,
         $.at_time_zone_expression,
+        $.rows_from_expression,
       ),
   },
 });
