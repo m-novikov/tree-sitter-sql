@@ -84,12 +84,12 @@ SELECT (SELECT 1) AS a
   (select_statement
     (select_clause
       (select_clause_body
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (number)))))
         (alias
-          (select_subexpression
-            (select_statement
-              (select_clause
-                (select_clause_body
-                  (number)))))
           (identifier))))))
 
 ================================================================================
@@ -105,12 +105,12 @@ SELECT a, b AS c FROM table1 AS t;
     (select_clause
       (select_clause_body
         (identifier)
+        (identifier)
         (alias
-          (identifier)
           (identifier))))
     (from_clause
+      (identifier)
       (alias
-        (identifier)
         (identifier)))))
 
 ================================================================================
@@ -132,10 +132,11 @@ GROUP BY lower(a), b;
     (from_clause
       (identifier))
     (group_by_clause
-      (group_by_clause_body
+      (group_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (group_expression
         (identifier)))))
 
 ================================================================================
@@ -145,6 +146,8 @@ SELECT statement with order by
 SELECT a, b FROM table1 ORDER BY lower(a), b;
 SELECT a, b FROM table1 ORDER BY lower(a), b ASC;
 SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC, b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
 
 --------------------------------------------------------------------------------
 
@@ -157,10 +160,11 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
         (identifier))))
   (select_statement
     (select_clause
@@ -170,10 +174,11 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
         (identifier))))
   (select_statement
     (select_clause
@@ -183,10 +188,35 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
         (identifier)))))
 
 ================================================================================
