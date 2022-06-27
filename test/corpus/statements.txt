@@ -84,12 +84,12 @@ SELECT (SELECT 1) AS a
   (select_statement
     (select_clause
       (select_clause_body
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (number)))))
         (alias
-          (select_subexpression
-            (select_statement
-              (select_clause
-                (select_clause_body
-                  (number)))))
           (identifier))))))
 
 ================================================================================
@@ -105,12 +105,12 @@ SELECT a, b AS c FROM table1 AS t;
     (select_clause
       (select_clause_body
         (identifier)
+        (identifier)
         (alias
-          (identifier)
           (identifier))))
     (from_clause
+      (identifier)
       (alias
-        (identifier)
         (identifier)))))
 
 ================================================================================
@@ -132,10 +132,11 @@ GROUP BY lower(a), b;
     (from_clause
       (identifier))
     (group_by_clause
-      (group_by_clause_body
+      (group_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (group_expression
         (identifier)))))
 
 ================================================================================
@@ -145,6 +146,8 @@ SELECT statement with order by
 SELECT a, b FROM table1 ORDER BY lower(a), b;
 SELECT a, b FROM table1 ORDER BY lower(a), b ASC;
 SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC, b DESC;
+SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
 
 --------------------------------------------------------------------------------
 
@@ -157,10 +160,11 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
         (identifier))))
   (select_statement
     (select_clause
@@ -170,10 +174,11 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
         (identifier))))
   (select_statement
     (select_clause
@@ -183,10 +188,35 @@ SELECT a, b FROM table1 ORDER BY lower(a), b DESC;
     (from_clause
       (identifier))
     (order_by_clause
-      (order_by_clause_body
+      (order_expression
         (function_call
           (identifier)
-          (identifier))
+          (identifier)))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
+        (identifier))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (identifier))
+      (order_expression
         (identifier)))))
 
 ================================================================================
@@ -1890,6 +1920,7 @@ CREATE SCHEMA IF NOT EXISTS information_schema;
   (create_schema_statement
     (identifier))
   (create_schema_statement
+    (if_not_exists)
     (identifier)))
 
 ================================================================================
@@ -1999,26 +2030,32 @@ CREATE EXTENSION btree_gist SCHEMA test_schema_diff;
   (create_extension_statement
     (identifier))
   (create_extension_statement
+    (if_not_exists)
     (identifier))
   (create_extension_statement
+    (if_not_exists)
     (identifier)
     (schema
       (identifier)))
   (create_extension_statement
+    (if_not_exists)
     (identifier)
     (schema
       (identifier)))
   (create_extension_statement
+    (if_not_exists)
     (identifier)
     (version
       (content)))
   (create_extension_statement
+    (if_not_exists)
     (identifier)
     (version
       (content))
     (schema
       (identifier)))
   (create_extension_statement
+    (if_not_exists)
     (identifier)
     (version
       (content))
@@ -2073,6 +2110,7 @@ DROP INDEX CONCURRENTLY idx;
 
 (source_file
   (drop_statement
+    (if_exists)
     (identifier))
   (drop_statement
     (identifier))
@@ -2112,6 +2150,7 @@ DROP EXTENSION postgis;
 
 (source_file
   (drop_statement
+    (if_exists)
     (identifier))
   (drop_statement
     (identifier))
@@ -2272,7 +2311,7 @@ ALTER TABLE foo OWNER TO bar;
     (alter_table
       (identifier)
       (alter_table_action
-        (alter_owner
+        (owner_to
           (identifier))))))
 
 ================================================================================
@@ -2464,17 +2503,191 @@ ALTER SCHEMA bar02 RENAME TO bar03;
   (alter_statement
     (schema
       (identifier)
-      (alter_owner
+      (owner_to
         (identifier))))
   (alter_statement
     (schema
       (identifier)
-      (alter_owner)))
+      (owner_to)))
   (alter_statement
     (schema
       (identifier)
-      (rename
+      (rename_to
         (identifier)))))
+
+================================================================================
+ALTER TYPE
+================================================================================
+
+ALTER TYPE name OWNER TO new_owner;
+ALTER TYPE name OWNER TO CURRENT_ROLE;
+ALTER TYPE name OWNER TO CURRENT_USER;
+ALTER TYPE name OWNER TO SESSION_USER;
+ALTER TYPE name RENAME TO new_type_name;
+ALTER TYPE name SET SCHEMA new_schema;
+ALTER TYPE name RENAME ATTRIBUTE attribute_name TO new_attribute_name;
+ALTER TYPE name RENAME ATTRIBUTE attribute_name TO new_attribute_name CASCADE;
+ALTER TYPE name RENAME ATTRIBUTE attribute_name TO new_attribute_name RESTRICT;
+ALTER TYPE name ADD VALUE 'new_enum_value';
+ALTER TYPE name ADD VALUE IF NOT EXISTS 'new_enum_value';
+ALTER TYPE name ADD VALUE 'new_enum_value' BEFORE 'neighbor_enum_value';
+ALTER TYPE name ADD VALUE 'new_enum_value' AFTER 'neighbor_enum_value';
+ALTER TYPE name RENAME VALUE 'existing_enum_value' TO 'new_enum_value';
+ALTER TYPE name SET ( RECEIVE = v1, SUBSCRIPT = v2 );
+ALTER TYPE name ADD ATTRIBUTE attribute_name integer;
+ALTER TYPE name ADD ATTRIBUTE attribute_name integer COLLATE collation;
+ALTER TYPE name ADD ATTRIBUTE attribute_name integer CASCADE;
+ALTER TYPE name DROP ATTRIBUTE attribute_name;
+ALTER TYPE name DROP ATTRIBUTE attribute_name CASCADE;
+ALTER TYPE name DROP ATTRIBUTE IF EXISTS attribute_name;
+ALTER TYPE name ALTER ATTRIBUTE attribute_name TYPE integer;
+ALTER TYPE name ALTER ATTRIBUTE attribute_name SET DATA TYPE integer;
+ALTER TYPE name ALTER ATTRIBUTE attribute_name TYPE integer COLLATE collation;
+ALTER TYPE name ALTER ATTRIBUTE attribute_name TYPE integer CASCADE;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (alter_type_statement
+    (identifier)
+    (owner_to
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (owner_to))
+  (alter_type_statement
+    (identifier)
+    (owner_to))
+  (alter_type_statement
+    (identifier)
+    (owner_to))
+  (alter_type_statement
+    (identifier)
+    (rename_to
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (set_schema
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (rename_attribute
+      (identifier)
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (rename_attribute
+      (identifier)
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (rename_attribute
+      (identifier)
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (add_value
+      (string
+        (content))))
+  (alter_type_statement
+    (identifier)
+    (add_value
+      (if_not_exists)
+      (string
+        (content))))
+  (alter_type_statement
+    (identifier)
+    (add_value
+      (string
+        (content))
+      (string
+        (content))))
+  (alter_type_statement
+    (identifier)
+    (add_value
+      (string
+        (content))
+      (string
+        (content))))
+  (alter_type_statement
+    (identifier)
+    (rename_value
+      (string
+        (content))
+      (string
+        (content))))
+  (alter_type_statement
+    (identifier)
+    (set_properties
+      (assigment_expression
+        (identifier)
+        (identifier))
+      (assigment_expression
+        (identifier)
+        (identifier))))
+  (alter_type_statement
+    (identifier)
+    (add_attribute
+      (identifier)
+      (type
+        (identifier))))
+  (alter_type_statement
+    (identifier)
+    (add_attribute
+      (identifier)
+      (type
+        (identifier))
+      (collate
+        (identifier))))
+  (alter_type_statement
+    (identifier)
+    (add_attribute
+      (identifier)
+      (type
+        (identifier))
+      (relationship_behavior)))
+  (alter_type_statement
+    (identifier)
+    (drop_attribute
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (drop_attribute
+      (identifier)
+      (relationship_behavior)))
+  (alter_type_statement
+    (identifier)
+    (drop_attribute
+      (if_exists)
+      (identifier)))
+  (alter_type_statement
+    (identifier)
+    (alter_attribute
+      (identifier)
+      (type
+        (identifier))))
+  (alter_type_statement
+    (identifier)
+    (alter_attribute
+      (identifier)
+      (set_data)
+      (type
+        (identifier))))
+  (alter_type_statement
+    (identifier)
+    (alter_attribute
+      (identifier)
+      (type
+        (identifier))
+      (collate
+        (identifier))))
+  (alter_type_statement
+    (identifier)
+    (alter_attribute
+      (identifier)
+      (type
+        (identifier))
+      (relationship_behavior))))
 
 ================================================================================
 JSON accessing operators

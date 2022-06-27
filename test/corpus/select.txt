@@ -26,94 +26,279 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
         (dotted_name
           (identifier)
           (identifier))
+        (interval_expression
+          (string
+            (content)))
         (alias
-          (interval_expression
-            (string
-              (content)))
           (identifier))))
     (from_clause
-      (alias
+      (join_clause
+        (join_clause
+          (join_clause
+            (join_clause
+              (join_clause
+                (join_clause
+                  (join_clause
+                    (join_clause
+                      (identifier)
+                      (alias
+                        (identifier))
+                      (identifier)
+                      (join_condition
+                        (binary_expression
+                          (dotted_name
+                            (identifier)
+                            (identifier))
+                          (dotted_name
+                            (identifier)
+                            (identifier)))))
+                    (join_type)
+                    (identifier)
+                    (join_condition
+                      (binary_expression
+                        (dotted_name
+                          (identifier)
+                          (identifier))
+                        (dotted_name
+                          (identifier)
+                          (identifier)))))
+                  (join_type)
+                  (identifier)
+                  (join_condition
+                    (binary_expression
+                      (dotted_name
+                        (identifier)
+                        (identifier))
+                      (dotted_name
+                        (identifier)
+                        (identifier)))))
+                (join_type)
+                (identifier)
+                (join_condition
+                  (binary_expression
+                    (dotted_name
+                      (identifier)
+                      (identifier))
+                    (dotted_name
+                      (identifier)
+                      (identifier)))))
+              (join_type)
+              (identifier)
+              (join_condition
+                (binary_expression
+                  (dotted_name
+                    (identifier)
+                    (identifier))
+                  (dotted_name
+                    (identifier)
+                    (identifier)))))
+            (join_type)
+            (identifier)
+            (join_condition
+              (binary_expression
+                (dotted_name
+                  (identifier)
+                  (identifier))
+                (dotted_name
+                  (identifier)
+                  (identifier)))))
+          (join_type)
+          (identifier)
+          (join_condition
+            (binary_expression
+              (dotted_name
+                (identifier)
+                (identifier))
+              (dotted_name
+                (identifier)
+                (identifier)))))
+        (join_type)
         (identifier)
-        (identifier)))
-    (join_clause
-      (identifier)
-      (binary_expression
+        (join_condition
+          (binary_expression
+            (dotted_name
+              (identifier)
+              (identifier))
+            (dotted_name
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+SELECT statement with parenthesized joins
+================================================================================
+
+SELECT t.a a, t1.b b, t2.c AS c
+FROM t INNER JOIN (
+  tb1 AS t1
+  FULL OUTER JOIN t2 ON t1.a = t2.a
+) ON t.a = t1.a;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
         (dotted_name
           (identifier)
           (identifier))
+        (alias
+          (identifier))
         (dotted_name
           (identifier)
+          (identifier))
+        (alias
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (alias
           (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
+    (from_clause
+      (join_clause
+        (identifier)
+        (join_type)
+        (join_clause
+          (identifier)
+          (alias
+            (identifier))
+          (join_type)
+          (identifier)
+          (join_condition
+            (binary_expression
+              (dotted_name
+                (identifier)
+                (identifier))
+              (dotted_name
+                (identifier)
+                (identifier)))))
+        (join_condition
+          (binary_expression
+            (dotted_name
+              (identifier)
+              (identifier))
+            (dotted_name
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+SELECT statement with joins using clause
+================================================================================
+
+SELECT t.a a, t1.b b FROM t INNER JOIN tb1 AS t1 USING (a, b);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
         (dotted_name
           (identifier)
           (identifier))
+        (alias
+          (identifier))
         (dotted_name
           (identifier)
+          (identifier))
+        (alias
           (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
-        (dotted_name
-          (identifier)
+    (from_clause
+      (join_clause
+        (identifier)
+        (join_type)
+        (identifier)
+        (alias
           (identifier))
-        (dotted_name
-          (identifier)
-          (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
-        (dotted_name
-          (identifier)
-          (identifier))
-        (dotted_name
-          (identifier)
-          (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
-        (dotted_name
-          (identifier)
-          (identifier))
-        (dotted_name
-          (identifier)
-          (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
-        (dotted_name
-          (identifier)
-          (identifier))
-        (dotted_name
-          (identifier)
-          (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
-        (dotted_name
-          (identifier)
-          (identifier))
-        (dotted_name
-          (identifier)
-          (identifier))))
-    (join_clause
-      (join_type)
-      (identifier)
-      (binary_expression
-        (dotted_name
-          (identifier)
-          (identifier))
-        (dotted_name
+        (using_clause
           (identifier)
           (identifier))))))
+
+================================================================================
+SELECT statement with rows from expression
+================================================================================
+
+SELECT t.a a, t.b b, t.c c FROM ROWS FROM (
+  func1(1, 2) AS (a INTEGER, b NUMERIC),
+  func2('x') AS (c VARCHAR)
+) AS t(a, b, c);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (dotted_name
+          (identifier)
+          (identifier))
+        (alias
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (alias
+          (identifier))
+        (dotted_name
+          (identifier)
+          (identifier))
+        (alias
+          (identifier))))
+    (from_clause
+      (rows_from_expression
+        (function_call
+          (identifier)
+          (number)
+          (number))
+        (alias
+          (column_definitions
+            (table_column
+              (identifier)
+              (type
+                (identifier)))
+            (table_column
+              (identifier)
+              (type
+                (identifier)))))
+        (function_call
+          (identifier)
+          (string
+            (content)))
+        (alias
+          (column_definitions
+            (table_column
+              (identifier)
+              (type
+                (identifier))))))
+      (alias
+        (identifier)
+        (column_names
+          (identifier)
+          (identifier)
+          (identifier))))))
+
+================================================================================
+SELECT statement with tablesample clause
+================================================================================
+
+SELECT * FROM tb1 TABLESAMPLE sampling_method(1, 2) REPEATABLE (7);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier)
+      (tablesample_clause
+        (function_call
+          (identifier)
+          (number)
+          (number))
+        (repeatable_clause
+          (number))))))
 
 ================================================================================
 SELECT element from array
@@ -144,19 +329,19 @@ FROM table1 AS t, table2 t2, table3
   (select_statement
     (select_clause
       (select_clause_body
+        (identifier)
         (alias
-          (identifier)
           (identifier))
+        (identifier)
         (alias
-          (identifier)
           (identifier))
         (identifier)))
     (from_clause
+      (identifier)
       (alias
-        (identifier)
         (identifier))
+      (identifier)
       (alias
-        (identifier)
         (identifier))
       (identifier))))
 
@@ -195,7 +380,8 @@ SELECT * FROM foo LIMIT 10 OFFSET 5;
     (from_clause
       (identifier))
     (limit_clause
-      (number)
+      (number))
+    (offset_clause
       (number))))
 
 ================================================================================
@@ -246,10 +432,9 @@ SELECT foo.x, bar.y FROM foo LEFT JOIN (SELECT id, y FROM baz) AS baz ON baz.id 
           (identifier)
           (identifier))))
     (from_clause
-      (identifier))
-    (join_clause
-      (join_type)
-      (alias
+      (join_clause
+        (identifier)
+        (join_type)
         (select_subexpression
           (select_statement
             (select_clause
@@ -258,14 +443,16 @@ SELECT foo.x, bar.y FROM foo LEFT JOIN (SELECT id, y FROM baz) AS baz ON baz.id 
                 (identifier)))
             (from_clause
               (identifier))))
-        (identifier))
-      (binary_expression
-        (dotted_name
-          (identifier)
+        (alias
           (identifier))
-        (dotted_name
-          (identifier)
-          (identifier)))))
+        (join_condition
+          (binary_expression
+            (dotted_name
+              (identifier)
+              (identifier))
+            (dotted_name
+              (identifier)
+              (identifier)))))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -276,10 +463,9 @@ SELECT foo.x, bar.y FROM foo LEFT JOIN (SELECT id, y FROM baz) AS baz ON baz.id 
           (identifier)
           (identifier))))
     (from_clause
-      (identifier))
-    (join_clause
-      (join_type)
-      (alias
+      (join_clause
+        (identifier)
+        (join_type)
         (select_subexpression
           (select_statement
             (select_clause
@@ -288,14 +474,16 @@ SELECT foo.x, bar.y FROM foo LEFT JOIN (SELECT id, y FROM baz) AS baz ON baz.id 
                 (identifier)))
             (from_clause
               (identifier))))
-        (identifier))
-      (binary_expression
-        (dotted_name
-          (identifier)
+        (alias
           (identifier))
-        (dotted_name
-          (identifier)
-          (identifier))))))
+        (join_condition
+          (binary_expression
+            (dotted_name
+              (identifier)
+              (identifier))
+            (dotted_name
+              (identifier)
+              (identifier))))))))
 
 ================================================================================
 SELECT with LATERAL subexpression
@@ -311,12 +499,877 @@ SELECT * FROM LATERAL (SELECT * FROM foo) bar;
       (select_clause_body
         (asterisk_expression)))
     (from_clause
+      (select_subexpression
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (asterisk_expression)))
+          (from_clause
+            (identifier))))
       (alias
-        (select_subexpression
+        (identifier)))))
+
+================================================================================
+SELECT GROUP BY
+================================================================================
+
+SELECT a, b FROM foo GROUP BY a + 1, b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (binary_expression
+          (identifier)
+          (number)))
+      (group_expression
+        (identifier)))))
+
+================================================================================
+SELECT GROUP BY GROUPING SETS
+================================================================================
+
+SELECT a, b FROM foo GROUP BY GROUPING SETS ((), (a), (b), (a, b), (a + 1, b + 1));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (grouping_sets_clause
+          (expression_list)
+          (expression_list
+            (identifier))
+          (expression_list
+            (identifier))
+          (expression_list
+            (identifier)
+            (identifier))
+          (expression_list
+            (binary_expression
+              (identifier)
+              (number))
+            (binary_expression
+              (identifier)
+              (number))))))))
+
+================================================================================
+SELECT GROUP BY ROLLUP
+================================================================================
+
+SELECT a, b FROM foo GROUP BY ROLLUP (a, (a, b), a + 1, b + 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (rollup_clause
+          (identifier)
+          (expression_list
+            (identifier)
+            (identifier))
+          (binary_expression
+            (identifier)
+            (number))
+          (binary_expression
+            (identifier)
+            (number)))))))
+
+================================================================================
+SELECT GROUP BY CUBE
+================================================================================
+
+SELECT a, b FROM foo GROUP BY CUBE (a, (a, b), a + 1, b + 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (cube_clause
+          (identifier)
+          (expression_list
+            (identifier)
+            (identifier))
+          (binary_expression
+            (identifier)
+            (number))
+          (binary_expression
+            (identifier)
+            (number)))))))
+
+================================================================================
+SELECT GROUP BY HAVING
+================================================================================
+
+SELECT a, b FROM foo GROUP BY a, b HAVING a > b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (identifier))
+      (group_expression
+        (identifier))
+      (having_clause
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+SELECT GROUP BY complex
+================================================================================
+
+SELECT a, b FROM foo GROUP BY
+  a + 1,
+  GROUPING SETS ((), (a, b)),
+  ROLLUP (a + 1, (a, b)),
+  CUBE (a + 1, (a, b))
+  HAVING a > b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (identifier))
+    (group_by_clause
+      (group_expression
+        (binary_expression
+          (identifier)
+          (number)))
+      (group_expression
+        (grouping_sets_clause
+          (expression_list)
+          (expression_list
+            (identifier)
+            (identifier))))
+      (group_expression
+        (rollup_clause
+          (binary_expression
+            (identifier)
+            (number))
+          (expression_list
+            (identifier)
+            (identifier))))
+      (group_expression
+        (cube_clause
+          (binary_expression
+            (identifier)
+            (number))
+          (expression_list
+            (identifier)
+            (identifier))))
+      (having_clause
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+SELECT aggregate expressions
+================================================================================
+
+SELECT array_agg(a ORDER BY b DESC) FROM foo;
+SELECT array_agg(ALL a ORDER BY b DESC) FROM foo;
+SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (order_by_clause
+            (order_expression
+              (identifier))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT aggregate expressions within group
+================================================================================
+
+SELECT array_agg(a) WITHIN GROUP (ORDER BY b DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (within_group_clause
+            (order_by_clause
+              (order_expression
+                (identifier)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT aggregate expressions filter
+================================================================================
+
+SELECT array_agg(a) FILTER (WHERE a <> '') FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (filter_clause
+            (where_clause
+              (binary_expression
+                (identifier)
+                (string
+                  (content))))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT aggregate expressions complex
+================================================================================
+
+SELECT
+    count(*) AS unfiltered,
+    count(DISTINCT *) AS distincted,
+    count(DISTINCT * ORDER BY i DESC) AS ordered,
+    count(*) FILTER (WHERE i < 5) AS filtered
+FROM generate_series(1,10) AS s(i);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (asterisk_expression))
+        (alias
+          (identifier))
+        (function_call
+          (identifier)
+          (asterisk_expression))
+        (alias
+          (identifier))
+        (function_call
+          (identifier)
+          (asterisk_expression)
+          (order_by_clause
+            (order_expression
+              (identifier))))
+        (alias
+          (identifier))
+        (function_call
+          (identifier)
+          (asterisk_expression)
+          (filter_clause
+            (where_clause
+              (binary_expression
+                (identifier)
+                (number)))))
+        (alias
+          (identifier))))
+    (from_clause
+      (function_call
+        (identifier)
+        (number)
+        (number))
+      (alias
+        (identifier)
+        (column_names
+          (identifier))))))
+
+================================================================================
+SELECT window function call
+================================================================================
+
+SELECT avg(a) OVER () FROM foo;
+SELECT avg(a) OVER win FROM foo WINDOW win AS ();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition)))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (identifier)))))
+    (from_clause
+      (identifier))
+    (window_clause
+      (identifier)
+      (window_definition))))
+
+================================================================================
+SELECT window function call with window definition
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b, c + 1) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b, c + 1 ORDER BY b ASC, c DESC) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (number))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (number)))
+              (order_by_clause
+                (order_expression
+                  (identifier))
+                (order_expression
+                  (identifier))))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_kind
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b ROWS CURRENT ROW) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b GROUPS CURRENT ROW) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_start
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE UNBOUNDED PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE b + 1 PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE b + 1 FOLLOWING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE UNBOUNDED FOLLOWING) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_end
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING EXCLUDE GROUP) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition frame_exclusion
+================================================================================
+
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE CURRENT ROW) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE GROUP) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE TIES) FROM foo;
+SELECT avg(a) OVER (PARTITION BY b RANGE CURRENT ROW EXCLUDE NO OTHERS) FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_exclusion)))))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT window function call with window definition complex
+================================================================================
+
+SELECT
+  avg(a) FILTER (WHERE a > b) OVER (
+    PARTITION BY b, c + 1
+    ORDER BY a - 1 ASC, c + 1 DESC NULLS FIRST
+    RANGE BETWEEN CURRENT ROW AND b + 1 PRECEDING
+    EXCLUDE GROUP
+  ) AS v1,
+  max(a) FILTER (WHERE a > b) OVER (
+    PARTITION BY c
+    ORDER BY a DESC, b NULLS FIRST
+    RANGE BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+    EXCLUDE NO OTHERS
+  ) AS v2
+FROM foo;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (function_call
+          (identifier)
+          (identifier)
+          (filter_clause
+            (where_clause
+              (binary_expression
+                (identifier)
+                (identifier))))
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier)
+                (binary_expression
+                  (identifier)
+                  (number)))
+              (order_by_clause
+                (order_expression
+                  (binary_expression
+                    (identifier)
+                    (number)))
+                (order_expression
+                  (binary_expression
+                    (identifier)
+                    (number))))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound
+                  (binary_expression
+                    (identifier)
+                    (number)))
+                (frame_exclusion)))))
+        (alias
+          (identifier))
+        (function_call
+          (identifier)
+          (identifier)
+          (filter_clause
+            (where_clause
+              (binary_expression
+                (identifier)
+                (identifier))))
+          (over_clause
+            (window_definition
+              (partition_by_clause
+                (identifier))
+              (order_by_clause
+                (order_expression
+                  (identifier))
+                (order_expression
+                  (identifier)))
+              (frame_clause
+                (frame_kind)
+                (frame_bound)
+                (frame_bound)
+                (frame_exclusion)))))
+        (alias
+          (identifier))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT array constructors
+================================================================================
+
+SELECT ARRAY[1, 2, 3+4];
+SELECT ARRAY(SELECT a FROM tb1);
+SELECT ARRAY[ARRAY[1,2], ARRAY[3,4]];
+SELECT ARRAY[]::integer[];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (number)
+          (number)
+          (binary_expression
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
           (select_statement
             (select_clause
               (select_clause_body
-                (asterisk_expression)))
+                (identifier)))
             (from_clause
-              (identifier))))
-        (identifier)))))
+              (identifier)))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (array_constructor
+            (number)
+            (number))
+          (array_constructor
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (type_cast
+          (array_constructor)
+          (array_type
+            (type
+              (identifier))))))))
+
+================================================================================
+SELECT row constructors
+================================================================================
+
+SELECT ROW(1,2.5,'this is a test');
+SELECT ROW(t.*, 42) FROM t;
+SELECT ROW(t.f1, t.f2, 42) FROM t;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (number)
+          (number)
+          (string
+            (content))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (asterisk_expression
+            (identifier))
+          (number))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (dotted_name
+            (identifier)
+            (identifier))
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number))))
+    (from_clause
+      (identifier))))
