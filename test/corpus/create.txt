@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
 
 (source_file
   (create_table_statement
+    (if_not_exists)
     (identifier)
     (table_parameters
       (table_column
@@ -116,6 +117,7 @@ CREATE TABLE IF NOT EXISTS tblsample
 
 (source_file
   (create_table_statement
+    (if_not_exists)
     (identifier)
     (table_parameters
       (table_column
@@ -208,6 +210,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
 
 (source_file
   (create_table_statement
+    (if_not_exists)
     (identifier)
     (table_parameters
       (table_column
@@ -250,6 +253,7 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
 
 (source_file
   (create_table_statement
+    (if_not_exists)
     (identifier)
     (table_parameters
       (table_column
@@ -870,6 +874,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo AS SELECT 1;
           (select_clause_body
             (number))))))
   (create_materialized_view_statement
+    (if_not_exists)
     (identifier)
     (view_body
       (select_statement
@@ -1020,6 +1025,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo(a, b)
 
 (source_file
   (create_materialized_view_statement
+    (if_not_exists)
     (identifier)
     (view_columns
       (identifier)
