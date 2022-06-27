@@ -15,6 +15,90 @@
     "fields": {}
   },
   {
+    "type": "add_attribute",
+    "named": true,
+    "fields": {
+      "attribute_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "data_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "collate",
+          "named": true
+        },
+        {
+          "type": "relationship_behavior",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "add_value",
+    "named": true,
+    "fields": {
+      "neighbor_enum_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "new_enum_value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "if_not_exists",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "alias",
     "named": true,
     "fields": {},
@@ -57,19 +141,52 @@
     }
   },
   {
-    "type": "alter_owner",
+    "type": "alter_attribute",
     "named": true,
-    "fields": {},
+    "fields": {
+      "attribute_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "data_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "dotted_name",
+          "type": "collate",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "relationship_behavior",
+          "named": true
+        },
+        {
+          "type": "set_data",
           "named": true
         }
       ]
@@ -148,6 +265,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "if_exists",
+          "named": true
         }
       ]
     }
@@ -161,10 +282,6 @@
       "required": true,
       "types": [
         {
-          "type": "alter_owner",
-          "named": true
-        },
-        {
           "type": "alter_table_action_add",
           "named": true
         },
@@ -174,6 +291,10 @@
         },
         {
           "type": "alter_table_action_set",
+          "named": true
+        },
+        {
+          "type": "owner_to",
           "named": true
         }
       ]
@@ -473,6 +594,72 @@
         },
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alter_type_statement",
+    "named": true,
+    "fields": {
+      "type_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "add_attribute",
+          "named": true
+        },
+        {
+          "type": "add_value",
+          "named": true
+        },
+        {
+          "type": "alter_attribute",
+          "named": true
+        },
+        {
+          "type": "drop_attribute",
+          "named": true
+        },
+        {
+          "type": "owner_to",
+          "named": true
+        },
+        {
+          "type": "rename_attribute",
+          "named": true
+        },
+        {
+          "type": "rename_to",
+          "named": true
+        },
+        {
+          "type": "rename_value",
+          "named": true
+        },
+        {
+          "type": "set_properties",
+          "named": true
+        },
+        {
+          "type": "set_schema",
           "named": true
         }
       ]
@@ -1723,6 +1910,26 @@
     }
   },
   {
+    "type": "collate",
+    "named": true,
+    "fields": {
+      "collation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "collation",
     "named": false,
     "fields": {},
@@ -1993,6 +2200,10 @@
           "named": true
         },
         {
+          "type": "if_not_exists",
+          "named": true
+        },
+        {
           "type": "schema",
           "named": true
         },
@@ -2223,6 +2434,10 @@
           "named": true
         },
         {
+          "type": "if_not_exists",
+          "named": true
+        },
+        {
           "type": "index_table_parameters",
           "named": true
         },
@@ -2384,6 +2599,10 @@
           "named": true
         },
         {
+          "type": "if_not_exists",
+          "named": true
+        },
+        {
           "type": "tablespace_hint",
           "named": true
         },
@@ -2430,7 +2649,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -2439,6 +2658,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if_not_exists",
           "named": true
         }
       ]
@@ -2503,6 +2726,10 @@
           "named": true
         },
         {
+          "type": "if_not_exists",
+          "named": true
+        },
+        {
           "type": "select_statement",
           "named": true
         },
@@ -2546,6 +2773,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "if_not_exists",
+          "named": true
+        },
         {
           "type": "trigger_body",
           "named": true
@@ -2834,7 +3065,7 @@
   },
   {
     "type": "default",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -3230,6 +3461,40 @@
     }
   },
   {
+    "type": "drop_attribute",
+    "named": true,
+    "fields": {
+      "attribute_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "if_exists",
+          "named": true
+        },
+        {
+          "type": "relationship_behavior",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "drop_statement",
     "named": true,
     "fields": {
@@ -3281,6 +3546,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "if_exists",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3865,6 +4140,10 @@
           "named": true
         },
         {
+          "type": "alter_type_statement",
+          "named": true
+        },
+        {
           "type": "create_domain_statement",
           "named": true
         },
@@ -4431,6 +4710,16 @@
   },
   {
     "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if_exists",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if_not_exists",
     "named": true,
     "fields": {}
   },
@@ -5690,6 +5979,25 @@
     }
   },
   {
+    "type": "owner_to",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "parallel_hint",
     "named": true,
     "fields": {}
@@ -5897,7 +6205,46 @@
     }
   },
   {
-    "type": "rename",
+    "type": "relationship_behavior",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rename_attribute",
+    "named": true,
+    "fields": {
+      "attribute_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "new_attribute_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "rename_to",
     "named": true,
     "fields": {},
     "children": {
@@ -5913,6 +6260,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "rename_value",
+    "named": true,
+    "fields": {
+      "existing_enum_value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "new_enum_value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -6413,10 +6786,6 @@
       "required": true,
       "types": [
         {
-          "type": "alter_owner",
-          "named": true
-        },
-        {
           "type": "dotted_name",
           "named": true
         },
@@ -6425,7 +6794,11 @@
           "named": true
         },
         {
-          "type": "rename",
+          "type": "owner_to",
+          "named": true
+        },
+        {
+          "type": "rename_to",
           "named": true
         }
       ]
@@ -6684,6 +7057,45 @@
     }
   },
   {
+    "type": "set_data",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "set_properties",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assigment_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "set_schema",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "set_statement",
     "named": true,
     "fields": {
@@ -6842,6 +7254,10 @@
       "types": [
         {
           "type": "alter_statement",
+          "named": true
+        },
+        {
+          "type": "alter_type_statement",
           "named": true
         },
         {
@@ -7295,6 +7711,10 @@
       "types": [
         {
           "type": "alter_statement",
+          "named": true
+        },
+        {
+          "type": "alter_type_statement",
           "named": true
         },
         {
@@ -8872,6 +9292,14 @@
     "named": false
   },
   {
+    "type": "ADD_ATTRIBUTE",
+    "named": false
+  },
+  {
+    "type": "ADD_VALUE",
+    "named": false
+  },
+  {
     "type": "AFTER",
     "named": false
   },
@@ -8884,7 +9312,15 @@
     "named": false
   },
   {
+    "type": "ALTER_ATTRIBUTE",
+    "named": false
+  },
+  {
     "type": "ALTER_COLUMN",
+    "named": false
+  },
+  {
+    "type": "ALTER_TYPE",
     "named": false
   },
   {
@@ -8953,6 +9389,10 @@
   },
   {
     "type": "CHECK_OPTION",
+    "named": false
+  },
+  {
+    "type": "COLLATE",
     "named": false
   },
   {
@@ -9085,6 +9525,10 @@
   },
   {
     "type": "DROP",
+    "named": false
+  },
+  {
+    "type": "DROP_ATTRIBUTE",
     "named": false
   },
   {
@@ -9484,7 +9928,15 @@
     "named": false
   },
   {
+    "type": "RENAME_ATTRIBUTE",
+    "named": false
+  },
+  {
     "type": "RENAME_TO",
+    "named": false
+  },
+  {
+    "type": "RENAME_VALUE",
     "named": false
   },
   {
@@ -9576,11 +10028,19 @@
     "named": false
   },
   {
+    "type": "SET_DATA",
+    "named": false
+  },
+  {
     "type": "SET_DEFAULT",
     "named": false
   },
   {
     "type": "SET_NULL",
+    "named": false
+  },
+  {
+    "type": "SET_SCHEMA",
     "named": false
   },
   {
@@ -9657,6 +10117,10 @@
   },
   {
     "type": "TRUNCATE",
+    "named": false
+  },
+  {
+    "type": "TYPE",
     "named": false
   },
   {

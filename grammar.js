@@ -112,6 +112,7 @@ module.exports = grammar({
           $.comment_statement,
           $.create_view_statement,
           $.create_materialized_view_statement,
+          $.alter_type_statement,
         ),
         optional(";"),
       ),
@@ -141,6 +142,7 @@ module.exports = grammar({
             $.declare_statement,
             $.create_view_statement,
             $.create_materialized_view_statement,
+            $.alter_type_statement,
           ),
           optional(";"),
         ),
@@ -216,26 +218,19 @@ module.exports = grammar({
     alter_table: $ =>
       seq(
         kw("TABLE"),
-        optional(kw("IF EXISTS")),
+        optional($.if_exists),
         optional(kw("ONLY")),
         $._identifier,
         choice($.alter_table_action, $.alter_table_rename_column),
       ),
-    alter_schema_rename_action: $ => seq(kw("RENAME TO"), $._identifier),
-    alter_owner_action: $ =>
+    rename_to: $ => seq(kw("RENAME TO"), $._identifier),
+    owner_to: $ =>
       seq(
         kw("OWNER TO"),
         choice($._identifier, "CURRENT_USER", "CURRENT_ROLE", "SESSION_USER"),
       ),
     alter_schema: $ =>
-      seq(
-        kw("SCHEMA"),
-        $._identifier,
-        choice(
-          alias($.alter_schema_rename_action, $.rename),
-          alias($.alter_owner_action, $.alter_owner),
-        ),
-      ),
+      seq(kw("SCHEMA"), $._identifier, choice($.rename_to, $.owner_to)),
     alter_table_action_alter_column: $ =>
       seq(
         kw("ALTER COLUMN"),
@@ -262,8 +257,87 @@ module.exports = grammar({
         $.alter_table_action_add,
         $.alter_table_action_alter_column,
         $.alter_table_action_set,
-        alias($.alter_owner_action, $.alter_owner),
+        $.owner_to,
       ),
+
+    alter_type_statement: $ =>
+      seq(
+        kw("ALTER TYPE"),
+        field("type_name", $._identifier),
+        choice(
+          $.owner_to,
+          $.rename_to,
+          $.set_schema,
+          $.rename_attribute,
+          $.add_value,
+          $.rename_value,
+          $.set_properties,
+          commaSep1(
+            choice($.add_attribute, $.drop_attribute, $.alter_attribute),
+          ),
+        ),
+      ),
+    set_schema: $ => seq(kw("SET SCHEMA"), $._identifier),
+    rename_attribute: $ =>
+      seq(
+        kw("RENAME ATTRIBUTE"),
+        field("attribute_name", $._identifier),
+        kw("TO"),
+        field("new_attribute_name", $._identifier),
+        optional(choice(kw("CASCADE"), kw("RESTRICT"))),
+      ),
+    add_value: $ =>
+      seq(
+        kw("ADD VALUE"),
+        optional($.if_not_exists),
+        field("new_enum_value", $.string),
+        optional(
+          seq(
+            choice(kw("BEFORE"), kw("AFTER")),
+            field("neighbor_enum_value", $.string),
+          ),
+        ),
+      ),
+    rename_value: $ =>
+      seq(
+        kw("RENAME VALUE"),
+        field("existing_enum_value", $.string),
+        kw("TO"),
+        field("new_enum_value", $.string),
+      ),
+    set_properties: $ =>
+      seq(kw("SET"), "(", commaSep1($.assigment_expression), ")"),
+    add_attribute: $ =>
+      seq(
+        kw("ADD ATTRIBUTE"),
+        field("attribute_name", $._identifier),
+        field("data_type", $._type),
+        optional($.collate),
+        optional($.relationship_behavior),
+      ),
+    drop_attribute: $ =>
+      seq(
+        kw("DROP ATTRIBUTE"),
+        optional($.if_exists),
+        field("attribute_name", $._identifier),
+        optional($.relationship_behavior),
+      ),
+    alter_attribute: $ =>
+      seq(
+        kw("ALTER ATTRIBUTE"),
+        field("attribute_name", $._identifier),
+        optional($.set_data),
+        kw("TYPE"),
+        field("data_type", $._type),
+        optional($.collate),
+        optional($.relationship_behavior),
+      ),
+    collate: $ => seq(kw("COLLATE"), field("collation", $._identifier)),
+    relationship_behavior: $ => choice(kw("CASCADE"), kw("RESTRICT")),
+    if_exists: $ => kw("IF EXISTS"),
+    if_not_exists: $ => kw("IF NOT EXISTS"),
+    set_data: $ => kw("SET DATA"),
+
     sequence: $ =>
       prec.right(
         seq(
@@ -396,7 +470,7 @@ module.exports = grammar({
         optional(kw("OR REPLACE")),
         optional(kw("CONSTRAINT")),
         kw("TRIGGER"),
-        optional(kw("IF NOT EXISTS")),
+        optional($.if_not_exists),
         field("name", $.identifier),
         $.trigger_time,
         $.trigger_event,
@@ -463,7 +537,7 @@ module.exports = grammar({
       prec.right(
         seq(
           kw("CREATE EXTENSION"),
-          optional(kw("IF NOT EXISTS")),
+          optional($.if_not_exists),
           $._identifier,
           optional(kw("WITH")),
           repeat(
@@ -485,7 +559,7 @@ module.exports = grammar({
         ),
       ),
     create_schema_statement: $ =>
-      seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $._identifier),
+      seq(kw("CREATE SCHEMA"), optional($.if_not_exists), $._identifier),
     drop_statement: $ =>
       seq(
         kw("DROP"),
@@ -501,7 +575,7 @@ module.exports = grammar({
           ),
         ),
         optional(kw("CONCURRENTLY")),
-        optional(kw("IF EXISTS")),
+        optional($.if_exists),
         field("target", commaSep1($._identifier)),
         optional(choice(kw("CASCADE"), kw("RESTRICT"))),
       ),
@@ -653,9 +727,7 @@ module.exports = grammar({
           optional($.unique_constraint),
           kw("INDEX"),
           optional(kw("CONCURRENTLY")),
-          optional(
-            seq(optional(kw("IF NOT EXISTS")), field("name", $.identifier)),
-          ),
+          optional(seq(optional($.if_not_exists), field("name", $.identifier))),
           kw("ON"),
           optional(kw("ONLY")),
           field("table_name", $._identifier),
@@ -762,7 +834,7 @@ module.exports = grammar({
         kw("CREATE"),
         optional(choice(kw("TEMPORARY"), kw("TEMP"))),
         kw("TABLE"),
-        optional(kw("IF NOT EXISTS")),
+        optional($.if_not_exists),
         $._identifier,
         choice(seq(kw("AS"), $.select_statement), $.table_parameters),
         optional(kw("WITHOUT OIDS")),
@@ -819,7 +891,7 @@ module.exports = grammar({
       prec.right(
         seq(
           kw("CREATE MATERIALIZED VIEW"),
-          optional(kw("IF NOT EXISTS")),
+          optional($.if_not_exists),
           $._identifier,
           optional($.view_columns),
           optional($.using_clause),
