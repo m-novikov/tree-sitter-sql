@@ -1094,6 +1094,10 @@
           "named": true
         },
         {
+          "type": "column_names",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
           "named": true
         },
@@ -1103,6 +1107,10 @@
         },
         {
           "type": "epoch_from_expression",
+          "named": true
+        },
+        {
+          "type": "expression_list",
           "named": true
         },
         {
@@ -2173,6 +2181,10 @@
       "required": true,
       "types": [
         {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -2796,6 +2808,10 @@
       "required": true,
       "types": [
         {
+          "type": "column_names",
+          "named": true
+        },
+        {
           "type": "data_hint",
           "named": true
         },
@@ -2821,10 +2837,6 @@
         },
         {
           "type": "view_body",
-          "named": true
-        },
-        {
-          "type": "view_columns",
           "named": true
         },
         {
@@ -3104,6 +3116,10 @@
       "required": true,
       "types": [
         {
+          "type": "column_names",
+          "named": true
+        },
+        {
           "type": "dotted_name",
           "named": true
         },
@@ -3117,10 +3133,6 @@
         },
         {
           "type": "view_check_option",
-          "named": true
-        },
-        {
-          "type": "view_columns",
           "named": true
         },
         {
@@ -4995,6 +5007,10 @@
           },
           {
             "type": "rows_from_expression",
+            "named": true
+          },
+          {
+            "type": "select_statement",
             "named": true
           },
           {
@@ -8383,21 +8399,6 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "set_clause_body",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "set_clause_body",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": true,
       "required": true,
       "types": [
@@ -10352,6 +10353,10 @@
       "required": true,
       "types": [
         {
+          "type": "alias",
+          "named": true
+        },
+        {
           "type": "from_clause",
           "named": true
         },
@@ -10717,25 +10722,6 @@
     "type": "view_check_option",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "view_columns",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "view_option",

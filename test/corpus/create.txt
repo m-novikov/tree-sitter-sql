@@ -587,10 +587,9 @@ CREATE TRIGGER trigger1
       (update_statement
         (identifier)
         (set_clause
-          (set_clause_body
-            (assigment_expression
-              (identifier)
-              (number))))))))
+          (assigment_expression
+            (identifier)
+            (number)))))))
 
 ================================================================================
 CREATE TRIGGER with reference
@@ -635,12 +634,11 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
       (update_statement
         (identifier)
         (set_clause
-          (set_clause_body
-            (assigment_expression
+          (assigment_expression
+            (identifier)
+            (binary_expression
               (identifier)
-              (binary_expression
-                (identifier)
-                (number)))))
+              (number))))
         (where_clause
           (binary_expression
             (identifier)
@@ -672,17 +670,16 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
       (insert_statement
         (identifier)
         (set_clause
-          (set_clause_body
-            (assigment_expression
+          (assigment_expression
+            (identifier)
+            (dotted_name
               (identifier)
-              (dotted_name
-                (identifier)
-                (identifier)))
-            (assigment_expression
+              (identifier)))
+          (assigment_expression
+            (identifier)
+            (dotted_name
               (identifier)
-              (dotted_name
-                (identifier)
-                (identifier))))))
+              (identifier)))))
       (delete_statement
         (from_clause
           (identifier))
@@ -695,12 +692,11 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
       (update_statement
         (identifier)
         (set_clause
-          (set_clause_body
-            (assigment_expression
+          (assigment_expression
+            (identifier)
+            (binary_expression
               (identifier)
-              (binary_expression
-                (identifier)
-                (number)))))
+              (number))))
         (where_clause
           (binary_expression
             (identifier)
@@ -769,7 +765,7 @@ CREATE VIEW foo(a, b) AS SELECT 1 a, 2 b;
 (source_file
   (create_view_statement
     (identifier)
-    (view_columns
+    (column_names
       (identifier)
       (identifier))
     (view_body
@@ -893,7 +889,7 @@ CREATE MATERIALIZED VIEW foo(a, b) AS SELECT 1 a, 2 b;
 (source_file
   (create_materialized_view_statement
     (identifier)
-    (view_columns
+    (column_names
       (identifier)
       (identifier))
     (view_body
@@ -1027,7 +1023,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo(a, b)
   (create_materialized_view_statement
     (if_not_exists)
     (identifier)
-    (view_columns
+    (column_names
       (identifier)
       (identifier))
     (using_clause

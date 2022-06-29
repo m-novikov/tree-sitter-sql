@@ -1132,13 +1132,12 @@ module.exports = grammar({
           optional(choice(kw("TEMPORARY"), kw("TEMP"))),
           kw("VIEW"),
           $._identifier,
-          optional($.view_columns),
+          optional($.column_names),
           optional($.view_options),
           $.view_body,
           optional($.view_check_option),
         ),
       ),
-    view_columns: $ => seq("(", commaSep1($._identifier), ")"),
     // PostgreSQL currently only support the SECURITY_BARRIER option
     view_option: $ => choice($._identifier, $.assigment_expression),
     view_options: $ => seq(kw("WITH"), "(", commaSep1($.view_option), ")"),
@@ -1161,7 +1160,7 @@ module.exports = grammar({
           kw("CREATE MATERIALIZED VIEW"),
           optional($.if_not_exists),
           $._identifier,
-          optional($.view_columns),
+          optional($.column_names),
           optional($.using_clause),
           optional($.view_options),
           optional($.tablespace_hint),
@@ -1217,7 +1216,7 @@ module.exports = grammar({
         commaSep1(choice($._expression, $.expression_list)),
         ")",
       ),
-    expression_list: $ => seq("(", optional(commaSep1($._expression)), ")"),
+    expression_list: $ => seq("(", commaSep($._expression), ")"),
     order_expression: $ =>
       seq(
         $._expression,
@@ -1260,7 +1259,7 @@ module.exports = grammar({
         $.column_definitions,
       ),
     _aliased_expression: $ => seq($._expression, optional(kw("AS")), $.alias),
-    column_names: $ => seq("(", commaSep1($.identifier), ")"),
+    column_names: $ => seq("(", commaSep1($._identifier), ")"),
     column_definitions: $ => seq("(", commaSep1($.table_column), ")"),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, $._aliased_expression)),
@@ -1328,14 +1327,24 @@ module.exports = grammar({
     _update_statement: $ =>
       seq(
         kw("UPDATE"),
+        optional(kw("ONLY")),
         $.identifier,
+        optional("*"),
+        optional(seq(optional(kw("AS")), $.alias)),
         $.set_clause,
         optional($.from_clause),
         optional($.where_clause),
       ),
-    set_clause: $ => seq(kw("SET"), $.set_clause_body),
-    set_clause_body: $ => seq(commaSep1($.assigment_expression)),
-    assigment_expression: $ => seq($._identifier, "=", $._expression),
+    set_clause: $ => seq(kw("SET"), commaSep1($.assigment_expression)),
+    assigment_expression: $ =>
+      choice(
+        seq($._identifier, "=", $._expression),
+        seq(
+          $.column_names,
+          "=",
+          choice($.select_subexpression, $.expression_list, $.row_constructor),
+        ),
+      ),
 
     // INSERT
     _insert_statement: $ =>
@@ -1423,7 +1432,7 @@ module.exports = grammar({
     _function_call_arguments: $ =>
       seq(
         optional(choice(kw("ALL"), kw("DISTINCT"))),
-        commaSep1($._expression),
+        choice(commaSep1($._expression), $.select_statement),
         optional($.order_by_clause),
       ),
     within_group_clause: $ =>
