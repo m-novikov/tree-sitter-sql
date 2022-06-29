@@ -20,20 +20,23 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
           (content)))))
   (insert_statement
     (identifier)
-    (identifier)
+    (identifier_list
+      (identifier))
     (values_clause
       (values_clause_item
         (number))))
   (insert_statement
     (identifier)
-    (identifier)
+    (identifier_list
+      (identifier))
     (values_clause
       (values_clause_item
         (number))))
   (insert_statement
     (identifier)
-    (identifier)
-    (identifier)
+    (identifier_list
+      (identifier)
+      (identifier))
     (values_clause
       (values_clause_item
         (number)
@@ -83,8 +86,9 @@ INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
 (source_file
   (insert_statement
     (identifier)
-    (identifier)
-    (identifier)
+    (identifier_list
+      (identifier)
+      (identifier))
     (values_clause
       (values_clause_item
         (number)
@@ -98,7 +102,8 @@ INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
         (order_expression
           (identifier))
         (order_expression
-          (identifier))))))
+          (identifier)
+          (order))))))
 
 ================================================================================
 INSERT statement values with limit
