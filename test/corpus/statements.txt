@@ -179,7 +179,8 @@ SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
           (identifier)
           (identifier)))
       (order_expression
-        (identifier))))
+        (identifier)
+        (order))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -193,7 +194,8 @@ SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
           (identifier)
           (identifier)))
       (order_expression
-        (identifier))))
+        (identifier)
+        (order))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -203,9 +205,11 @@ SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
       (identifier))
     (order_by_clause
       (order_expression
-        (identifier))
+        (identifier)
+        (order))
       (order_expression
-        (identifier))))
+        (identifier)
+        (order))))
   (select_statement
     (select_clause
       (select_clause_body
@@ -215,9 +219,13 @@ SELECT a, b FROM table1 ORDER BY a ASC NULLS FIRST, b DESC NULLS LAST;
       (identifier))
     (order_by_clause
       (order_expression
-        (identifier))
+        (identifier)
+        (order)
+        (nulls_order))
       (order_expression
-        (identifier)))))
+        (identifier)
+        (order)
+        (nulls_order)))))
 
 ================================================================================
 SELECT statement FROM multiple tables
@@ -839,8 +847,9 @@ CREATE INDEX test_idx ON table(col1, col2);
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
-      (identifier)
+    (index_item
+      (identifier))
+    (index_item
       (identifier))))
 
 ================================================================================
@@ -848,6 +857,7 @@ CREATE UNIQUE INDEX
 ================================================================================
 
 CREATE UNIQUE INDEX test_idx ON table(col1, col2);
+CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS name ON ONLY table_name USING method (col1, col2);
 
 --------------------------------------------------------------------------------
 
@@ -856,8 +866,21 @@ CREATE UNIQUE INDEX test_idx ON table(col1, col2);
     (unique_constraint)
     (identifier)
     (identifier)
-    (index_table_parameters
-      (identifier)
+    (index_item
+      (identifier))
+    (index_item
+      (identifier)))
+  (create_index_statement
+    (unique_constraint)
+    (concurrently)
+    (if_not_exists)
+    (identifier)
+    (identifier)
+    (using_clause
+      (identifier))
+    (index_item
+      (identifier))
+    (index_item
       (identifier))))
 
 ================================================================================
@@ -873,15 +896,16 @@ CREATE INDEX text_idx2 ON table(col2 text_pattern_ops);
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
+    (index_item
       (function_call
         (identifier)
-        (identifier))
+        (identifier)))
+    (index_item
       (identifier)))
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
+    (index_item
       (identifier)
       (op_class
         (identifier)))))
@@ -898,7 +922,7 @@ CREATE INDEX test_idx ON table(col1) WHERE col1 IS NOT NULL;
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
+    (index_item
       (identifier))
     (where_clause
       (is_expression
@@ -917,12 +941,96 @@ CREATE INDEX test_idx ON table(col1) WHERE col1 <> 1
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
+    (index_item
       (identifier))
     (where_clause
       (binary_expression
         (identifier)
         (number)))))
+
+================================================================================
+CREATE INDEX by expressions
+================================================================================
+
+CREATE INDEX test_idx ON table((a + b), div(c, 2));
+CREATE INDEX test_idx ON table((a + b) COLLATE collation, div(c, 2));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_item
+      (binary_expression
+        (identifier)
+        (identifier)))
+    (index_item
+      (function_call
+        (identifier)
+        (identifier)
+        (number))))
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_item
+      (binary_expression
+        (identifier)
+        (identifier))
+      (collate
+        (identifier)))
+    (index_item
+      (function_call
+        (identifier)
+        (identifier)
+        (number)))))
+
+================================================================================
+CREATE INDEX with opclass
+================================================================================
+
+CREATE INDEX test_idx ON table(a opclass(param1=1, param2=2), div(c, 2));
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_item
+      (identifier)
+      (op_class
+        (identifier)
+        (assignment_expression_list
+          (assignment_expression
+            (identifier)
+            (number))
+          (assignment_expression
+            (identifier)
+            (number)))))
+    (index_item
+      (function_call
+        (identifier)
+        (identifier)
+        (number)))))
+
+================================================================================
+CREATE INDEX with tablespace
+================================================================================
+
+CREATE INDEX foo_idx ON table1 (col2 DESC) TABLESPACE tbsp;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_item
+      (identifier)
+      (order))
+    (tablespace_hint
+      (identifier))))
 
 ================================================================================
 CREATE INDEX complex
@@ -936,8 +1044,9 @@ CREATE INDEX foo_idx ON table1 (col2, (lower(col1->>'attr')));
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
-      (identifier)
+    (index_item
+      (identifier))
+    (index_item
       (function_call
         (identifier)
         (json_access
@@ -961,34 +1070,38 @@ CREATE UNIQUE INDEX bttest_multi_idx ON bttest_multi USING btree (id) INCLUDE (d
     (identifier)
     (using_clause
       (identifier))
-    (index_table_parameters
+    (index_item
       (identifier)))
   (create_index_statement
     (identifier)
     (identifier)
     (using_clause
       (identifier))
-    (index_table_parameters
+    (index_item
       (identifier))
-    (create_index_with_clause
-      (identifier)
-      (identifier)))
+    (index_with_clause
+      (storage_parameters
+        (assignment_expression
+          (identifier)
+          (identifier)))))
   (create_index_statement
     (unique_constraint)
     (identifier)
     (identifier)
     (using_clause
       (identifier))
-    (index_table_parameters
+    (index_item
       (identifier))
-    (create_index_include_clause
-      (identifier))))
+    (index_include_clause
+      (identifier_list
+        (identifier)))))
 
 ================================================================================
 CREATE INDEX with order
 ================================================================================
 
 CREATE INDEX foo_idx ON table1 (col2 DESC);
+CREATE INDEX test_idx ON table(a ASC, b DESC NULLS FIRST);
 
 --------------------------------------------------------------------------------
 
@@ -996,9 +1109,19 @@ CREATE INDEX foo_idx ON table1 (col2 DESC);
   (create_index_statement
     (identifier)
     (identifier)
-    (index_table_parameters
-      (ordered_expression
-        (identifier)))))
+    (index_item
+      (identifier)
+      (order)))
+  (create_index_statement
+    (identifier)
+    (identifier)
+    (index_item
+      (identifier)
+      (order))
+    (index_item
+      (identifier)
+      (order)
+      (nulls_order))))
 
 ================================================================================
 CREATE TABLE
@@ -1196,7 +1319,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
           (identifier))
         (references_constraint
           (identifier)
-          (identifier))))))
+          (identifier_list
+            (identifier)))))))
 
 ================================================================================
 CREATE TABLE with references constraint with actions
@@ -1216,7 +1340,8 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UP
           (identifier))
         (references_constraint
           (identifier)
-          (identifier)
+          (identifier_list
+            (identifier))
           (on_delete_action)
           (on_update_action))))))
 
@@ -1309,14 +1434,16 @@ CREATE TABLE my_table (
         (type
           (identifier)))
       (foreign_key
-        (identifier)
-        (identifier)
+        (column_names
+          (identifier)
+          (identifier))
         (references_constraint
           (identifier)))
       (identifier)
       (foreign_key
-        (identifier)
-        (identifier)
+        (column_names
+          (identifier)
+          (identifier))
         (references_constraint
           (identifier))))))
 
@@ -1344,7 +1471,8 @@ CREATE TABLE foo(
           (NULL))
         (references_constraint
           (identifier)
-          (identifier)
+          (identifier_list
+            (identifier))
           (on_update_action)
           (on_delete_action)))
       (table_column
@@ -1387,8 +1515,9 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
         (type
           (identifier)))
       (unique
-        (identifier)
-        (identifier)))))
+        (column_names
+          (identifier)
+          (identifier))))))
 
 ================================================================================
 CREATE TABLE with direction
@@ -1418,7 +1547,7 @@ CREATE TABLE foo(
           (identifier))
         (default_clause
           (identifier))
-        (direction_constraint)))))
+        (order)))))
 
 ================================================================================
 Comment
@@ -1484,8 +1613,9 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
         (type
           (identifier)))
       (primary_key
-        (identifier)
-        (identifier)))))
+        (column_names
+          (identifier)
+          (identifier))))))
 
 ================================================================================
 CREATE TABLE with exclude contraint
@@ -1600,12 +1730,14 @@ CREATE TABLE my_table (
         (type
           (identifier)))
       (foreign_key
-        (identifier)
-        (identifier)
+        (column_names
+          (identifier)
+          (identifier))
         (references_constraint
           (identifier)
-          (identifier)
-          (identifier))))))
+          (identifier_list
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 CREATE FUNCTION
@@ -2346,26 +2478,30 @@ ALTER TABLE foo
           (identifier))
         (references_constraint
           (identifier)
-          (identifier)
+          (identifier_list
+            (identifier))
           (on_update_action)
           (on_delete_action)))))
   (alter_table_statement
     (identifier)
     (add_table_constraint
       (foreign_key
-        (identifier)
+        (column_names
+          (identifier))
         (references_constraint
           (identifier)
-          (identifier)
+          (identifier_list
+            (identifier))
           (on_update_action)
           (on_delete_action)))
       (initial_mode)))
   (alter_table_statement
     (identifier)
     (set_storage_parameters
-      (assigment_expression
-        (identifier)
-        (FALSE))))
+      (assignment_expression_list
+        (assignment_expression
+          (identifier)
+          (FALSE)))))
   (alter_table_statement
     (identifier)
     (rename_column
@@ -2394,10 +2530,11 @@ ALTER TABLE foo
       (identifier)
       (partition_bound
         (partition_bound_in
-          (number)
-          (binary_expression
+          (expression_list
             (number)
-            (number))))))
+            (binary_expression
+              (number)
+              (number)))))))
   (alter_table_statement
     (identifier)
     (attach_partition
@@ -2516,26 +2653,28 @@ ALTER TABLE foo
     (alter_column
       (identifier)
       (set_attribute_options
-        (assigment_expression
-          (identifier)
-          (number))
-        (assigment_expression
-          (identifier)
-          (string
-            (content)))
-        (assigment_expression
-          (identifier)
-          (array_constructor
-            (number)
-            (number))))))
+        (assignment_expression_list
+          (assignment_expression
+            (identifier)
+            (number))
+          (assignment_expression
+            (identifier)
+            (string
+              (content)))
+          (assignment_expression
+            (identifier)
+            (array_constructor
+              (number)
+              (number)))))))
   (alter_table_statement
     (identifier)
     (alter_column
       (identifier)
       (reset_attribute_options
-        (identifier)
-        (identifier)
-        (identifier))))
+        (attribute_options
+          (identifier)
+          (identifier)
+          (identifier)))))
   (alter_table_statement
     (identifier)
     (alter_column
@@ -2630,17 +2769,19 @@ ALTER TABLE foo
   (alter_table_statement
     (identifier)
     (set_storage_parameters
-      (assigment_expression
-        (identifier)
-        (number))
-      (assigment_expression
-        (identifier)
-        (number))))
+      (assignment_expression_list
+        (assignment_expression
+          (identifier)
+          (number))
+        (assignment_expression
+          (identifier)
+          (number)))))
   (alter_table_statement
     (identifier)
     (reset_storage_parameters
-      (identifier)
-      (identifier)))
+      (identifier_list
+        (identifier)
+        (identifier))))
   (alter_table_statement
     (identifier)
     (inherit
@@ -2991,12 +3132,13 @@ ALTER TYPE name ALTER ATTRIBUTE attribute_name TYPE integer CASCADE;
   (alter_type_statement
     (identifier)
     (set_properties
-      (assigment_expression
-        (identifier)
-        (identifier))
-      (assigment_expression
-        (identifier)
-        (identifier))))
+      (assignment_expression_list
+        (assignment_expression
+          (identifier)
+          (identifier))
+        (assignment_expression
+          (identifier)
+          (identifier)))))
   (alter_type_statement
     (identifier)
     (add_attribute

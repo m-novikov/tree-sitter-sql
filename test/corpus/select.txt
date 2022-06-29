@@ -211,8 +211,9 @@ SELECT t.a a, t1.b b FROM t INNER JOIN tb1 AS t1 USING (a, b);
         (alias
           (identifier))
         (using_clause
-          (identifier)
-          (identifier))))))
+          (identifier_list
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 SELECT statement with rows from expression
@@ -251,7 +252,7 @@ SELECT t.a a, t.b b, t.c c FROM ROWS FROM (
           (number)
           (number))
         (alias
-          (column_definitions
+          (column_list
             (table_column
               (identifier)
               (type
@@ -265,14 +266,14 @@ SELECT t.a a, t.b b, t.c c FROM ROWS FROM (
           (string
             (content)))
         (alias
-          (column_definitions
+          (column_list
             (table_column
               (identifier)
               (type
                 (identifier))))))
       (alias
         (identifier)
-        (column_names
+        (identifier_list
           (identifier)
           (identifier)
           (identifier))))))
@@ -726,7 +727,8 @@ SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
           (identifier)
           (order_by_clause
             (order_expression
-              (identifier))))))
+              (identifier)
+              (order))))))
     (from_clause
       (identifier)))
   (select_statement
@@ -737,7 +739,8 @@ SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
           (identifier)
           (order_by_clause
             (order_expression
-              (identifier))))))
+              (identifier)
+              (order))))))
     (from_clause
       (identifier)))
   (select_statement
@@ -748,7 +751,8 @@ SELECT array_agg(DISTINCT a ORDER BY b DESC) FROM foo;
           (identifier)
           (order_by_clause
             (order_expression
-              (identifier))))))
+              (identifier)
+              (order))))))
     (from_clause
       (identifier))))
 
@@ -770,7 +774,8 @@ SELECT array_agg(a) WITHIN GROUP (ORDER BY b DESC) FROM foo;
           (within_group_clause
             (order_by_clause
               (order_expression
-                (identifier)))))))
+                (identifier)
+                (order)))))))
     (from_clause
       (identifier))))
 
@@ -830,7 +835,8 @@ FROM generate_series(1,10) AS s(i);
           (asterisk_expression)
           (order_by_clause
             (order_expression
-              (identifier))))
+              (identifier)
+              (order))))
         (alias
           (identifier))
         (function_call
@@ -850,7 +856,7 @@ FROM generate_series(1,10) AS s(i);
         (number))
       (alias
         (identifier)
-        (column_names
+        (identifier_list
           (identifier))))))
 
 ================================================================================
@@ -927,9 +933,11 @@ SELECT avg(a) OVER (PARTITION BY b, c + 1 ORDER BY b ASC, c DESC) FROM foo;
                   (number)))
               (order_by_clause
                 (order_expression
-                  (identifier))
+                  (identifier)
+                  (order))
                 (order_expression
-                  (identifier))))))))
+                  (identifier)
+                  (order))))))))
     (from_clause
       (identifier))))
 
@@ -1240,11 +1248,14 @@ FROM foo;
                 (order_expression
                   (binary_expression
                     (identifier)
-                    (number)))
+                    (number))
+                  (order))
                 (order_expression
                   (binary_expression
                     (identifier)
-                    (number))))
+                    (number))
+                  (order)
+                  (nulls_order)))
               (frame_clause
                 (frame_kind)
                 (frame_bound)
@@ -1269,9 +1280,11 @@ FROM foo;
                 (identifier))
               (order_by_clause
                 (order_expression
-                  (identifier))
+                  (identifier)
+                  (order))
                 (order_expression
-                  (identifier)))
+                  (identifier)
+                  (nulls_order)))
               (frame_clause
                 (frame_kind)
                 (frame_bound)

@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS `tblsample` (
           (string
             (content))))
       (primary_key
-        (identifier)))))
+        (column_names
+          (identifier))))))
 
 ================================================================================
 CREATE TABLE
@@ -193,7 +194,8 @@ CREATE TABLE IF NOT EXISTS tblsample
           (string
             (content))))
       (primary_key
-        (identifier)))))
+        (column_names
+          (identifier))))))
 
 ================================================================================
 CREATE statement with array type
@@ -587,7 +589,7 @@ CREATE TRIGGER trigger1
       (update_statement
         (identifier)
         (set_clause
-          (assigment_expression
+          (assignment_expression
             (identifier)
             (number)))))))
 
@@ -634,7 +636,7 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
       (update_statement
         (identifier)
         (set_clause
-          (assigment_expression
+          (assignment_expression
             (identifier)
             (binary_expression
               (identifier)
@@ -670,12 +672,12 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
       (insert_statement
         (identifier)
         (set_clause
-          (assigment_expression
+          (assignment_expression
             (identifier)
             (dotted_name
               (identifier)
               (identifier)))
-          (assigment_expression
+          (assignment_expression
             (identifier)
             (dotted_name
               (identifier)
@@ -692,7 +694,7 @@ CREATE TRIGGER testref BEFORE INSERT ON test1
       (update_statement
         (identifier)
         (set_clause
-          (assigment_expression
+          (assignment_expression
             (identifier)
             (binary_expression
               (identifier)
@@ -765,7 +767,7 @@ CREATE VIEW foo(a, b) AS SELECT 1 a, 2 b;
 (source_file
   (create_view_statement
     (identifier)
-    (column_names
+    (identifier_list
       (identifier)
       (identifier))
     (view_body
@@ -808,7 +810,7 @@ CREATE VIEW foo WITH(security_barrier) AS SELECT 1;
   (create_view_statement
     (identifier)
     (view_options
-      (view_option
+      (option_list
         (identifier)))
     (view_body
       (select_statement
@@ -889,7 +891,7 @@ CREATE MATERIALIZED VIEW foo(a, b) AS SELECT 1 a, 2 b;
 (source_file
   (create_materialized_view_statement
     (identifier)
-    (column_names
+    (identifier_list
       (identifier)
       (identifier))
     (view_body
@@ -938,16 +940,14 @@ CREATE MATERIALIZED VIEW foo WITH (
   (create_materialized_view_statement
     (identifier)
     (view_options
-      (view_option
-        (assigment_expression
+      (option_list
+        (assignment_expression
           (dotted_name
             (identifier)
             (identifier))
-          (number)))
-      (view_option
-        (identifier))
-      (view_option
-        (assigment_expression
+          (number))
+        (identifier)
+        (assignment_expression
           (identifier)
           (number))))
     (view_body
@@ -1023,22 +1023,20 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo(a, b)
   (create_materialized_view_statement
     (if_not_exists)
     (identifier)
-    (column_names
+    (identifier_list
       (identifier)
       (identifier))
     (using_clause
       (identifier))
     (view_options
-      (view_option
-        (assigment_expression
+      (option_list
+        (assignment_expression
           (dotted_name
             (identifier)
             (identifier))
-          (number)))
-      (view_option
-        (identifier))
-      (view_option
-        (assigment_expression
+          (number))
+        (identifier)
+        (assignment_expression
           (identifier)
           (number))))
     (tablespace_hint
