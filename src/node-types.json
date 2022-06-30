@@ -15,6 +15,11 @@
     "fields": {}
   },
   {
+    "type": "UNKNOWN",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "add_attribute",
     "named": true,
     "fields": {
@@ -809,6 +814,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -826,6 +835,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -869,7 +882,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -928,6 +949,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -945,6 +970,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -988,7 +1017,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -1066,6 +1103,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -1083,6 +1124,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -1134,7 +1179,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -1223,6 +1276,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -1240,6 +1297,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -1283,7 +1344,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -1377,6 +1446,137 @@
     "fields": {}
   },
   {
+    "type": "between_and_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "epoch_from_expression",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "row_constructor",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {
@@ -1405,6 +1605,10 @@
             "named": true
           },
           {
+            "type": "UNKNOWN",
+            "named": true
+          },
+          {
             "type": "argument_reference",
             "named": true
           },
@@ -1422,6 +1626,10 @@
           },
           {
             "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "between_and_expression",
             "named": true
           },
           {
@@ -1465,7 +1673,15 @@
             "named": true
           },
           {
+            "type": "isnull_expression",
+            "named": true
+          },
+          {
             "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "notnull_expression",
             "named": true
           },
           {
@@ -1617,6 +1833,10 @@
             "named": true
           },
           {
+            "type": "UNKNOWN",
+            "named": true
+          },
+          {
             "type": "argument_reference",
             "named": true
           },
@@ -1634,6 +1854,10 @@
           },
           {
             "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "between_and_expression",
             "named": true
           },
           {
@@ -1677,7 +1901,15 @@
             "named": true
           },
           {
+            "type": "isnull_expression",
+            "named": true
+          },
+          {
             "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "notnull_expression",
             "named": true
           },
           {
@@ -1738,6 +1970,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -1755,6 +1991,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -1798,7 +2038,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -1904,6 +2152,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -1921,6 +2173,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -1964,7 +2220,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -2019,6 +2283,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -2036,6 +2304,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -2079,7 +2351,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -2287,6 +2567,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -2304,6 +2588,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -2347,7 +2635,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -3147,6 +3443,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -3164,6 +3464,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -3211,7 +3515,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -3303,6 +3615,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -3320,6 +3636,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -3363,7 +3683,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -3418,6 +3746,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -3435,6 +3767,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -3478,7 +3814,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -3667,6 +4011,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -3684,6 +4032,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -3727,7 +4079,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -4117,6 +4477,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -4134,6 +4498,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -4177,7 +4545,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -4282,6 +4658,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -4299,6 +4679,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -4342,7 +4726,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -4456,6 +4848,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -4473,6 +4869,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -4516,7 +4916,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -4621,6 +5029,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "alias",
           "named": true
         },
@@ -4642,6 +5054,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -4685,11 +5101,19 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "join_clause",
           "named": true
         },
         {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -4922,6 +5346,10 @@
             "named": true
           },
           {
+            "type": "UNKNOWN",
+            "named": true
+          },
+          {
             "type": "argument_reference",
             "named": true
           },
@@ -4939,6 +5367,10 @@
           },
           {
             "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "between_and_expression",
             "named": true
           },
           {
@@ -4982,7 +5414,15 @@
             "named": true
           },
           {
+            "type": "isnull_expression",
+            "named": true
+          },
+          {
             "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "notnull_expression",
             "named": true
           },
           {
@@ -5143,6 +5583,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -5160,6 +5604,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -5211,7 +5659,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -5285,6 +5741,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -5302,6 +5762,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -5345,7 +5809,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -5434,6 +5906,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -5451,6 +5927,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -5494,7 +5974,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -5584,6 +6072,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -5601,6 +6093,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -5648,7 +6144,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -5865,6 +6369,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -5882,6 +6390,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -5929,7 +6441,146 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "row_constructor",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "isnull_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "epoch_from_expression",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -5984,6 +6635,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "alias",
           "named": true
         },
@@ -6005,6 +6660,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -6048,6 +6707,10 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "join_clause",
           "named": true
         },
@@ -6061,6 +6724,10 @@
         },
         {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -6123,6 +6790,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -6140,6 +6811,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -6183,7 +6858,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -6243,6 +6926,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -6260,6 +6947,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -6303,7 +6994,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -6512,6 +7211,137 @@
     "type": "not_valid",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "notnull_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "epoch_from_expression",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "row_constructor",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "null_constraint",
@@ -6752,6 +7582,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -6769,6 +7603,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -6812,7 +7650,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -6984,6 +7830,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -7001,6 +7851,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -7044,7 +7898,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -7133,6 +7995,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -7150,6 +8016,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -7193,7 +8063,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -7515,6 +8393,10 @@
             "named": true
           },
           {
+            "type": "UNKNOWN",
+            "named": true
+          },
+          {
             "type": "argument_reference",
             "named": true
           },
@@ -7532,6 +8414,10 @@
           },
           {
             "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "between_and_expression",
             "named": true
           },
           {
@@ -7575,7 +8461,15 @@
             "named": true
           },
           {
+            "type": "isnull_expression",
+            "named": true
+          },
+          {
             "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "notnull_expression",
             "named": true
           },
           {
@@ -7702,6 +8596,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -7719,6 +8617,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -7762,7 +8664,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -7821,6 +8731,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "alias",
           "named": true
         },
@@ -7842,6 +8756,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -7885,7 +8803,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -7945,6 +8871,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -7962,6 +8892,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -8009,7 +8943,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -8064,6 +9006,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -8081,6 +9027,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -8124,7 +9074,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -8259,6 +9217,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "alias",
           "named": true
         },
@@ -8280,6 +9242,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -8323,7 +9289,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -8528,6 +9502,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -8545,6 +9523,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -8588,7 +9570,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -8758,6 +9748,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -8775,6 +9769,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -8818,7 +9816,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -9569,6 +10575,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -9586,6 +10596,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -9629,7 +10643,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -9815,6 +10837,10 @@
             "named": true
           },
           {
+            "type": "UNKNOWN",
+            "named": true
+          },
+          {
             "type": "argument_reference",
             "named": true
           },
@@ -9832,6 +10858,10 @@
           },
           {
             "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "between_and_expression",
             "named": true
           },
           {
@@ -9875,7 +10905,15 @@
             "named": true
           },
           {
+            "type": "isnull_expression",
+            "named": true
+          },
+          {
             "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "notnull_expression",
             "named": true
           },
           {
@@ -9969,6 +11007,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -9986,6 +11028,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -10029,7 +11075,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -10296,6 +11350,10 @@
             "named": true
           },
           {
+            "type": "UNKNOWN",
+            "named": true
+          },
+          {
             "type": "argument_reference",
             "named": true
           },
@@ -10313,6 +11371,10 @@
           },
           {
             "type": "at_time_zone_expression",
+            "named": true
+          },
+          {
+            "type": "between_and_expression",
             "named": true
           },
           {
@@ -10356,7 +11418,15 @@
             "named": true
           },
           {
+            "type": "isnull_expression",
+            "named": true
+          },
+          {
             "type": "json_access",
+            "named": true
+          },
+          {
+            "type": "notnull_expression",
             "named": true
           },
           {
@@ -10520,6 +11590,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -10537,6 +11611,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -10580,7 +11658,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -10686,6 +11772,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -10703,6 +11793,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -10746,7 +11840,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -10860,6 +11962,10 @@
           "named": true
         },
         {
+          "type": "UNKNOWN",
+          "named": true
+        },
+        {
           "type": "argument_reference",
           "named": true
         },
@@ -10877,6 +11983,10 @@
         },
         {
           "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "between_and_expression",
           "named": true
         },
         {
@@ -10920,7 +12030,15 @@
           "named": true
         },
         {
+          "type": "isnull_expression",
+          "named": true
+        },
+        {
           "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "notnull_expression",
           "named": true
         },
         {
@@ -11732,6 +12850,10 @@
     "named": false
   },
   {
+    "type": "ISNULL",
+    "named": false
+  },
+  {
     "type": "JOIN",
     "named": false
   },
@@ -11817,6 +12939,10 @@
   },
   {
     "type": "NOTHING",
+    "named": false
+  },
+  {
+    "type": "NOTNULL",
     "named": false
   },
   {
@@ -12216,6 +13342,10 @@
     "named": false
   },
   {
+    "type": "SYMMETRIC",
+    "named": false
+  },
+  {
     "type": "SYSTEM",
     "named": false
   },
@@ -12285,6 +13415,10 @@
   },
   {
     "type": "UNIQUE",
+    "named": false
+  },
+  {
+    "type": "UNKNOWN",
     "named": false
   },
   {

@@ -14395,6 +14395,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "UNKNOWN"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "distinct_from"
               }
             ]
@@ -14425,6 +14429,115 @@
             },
             "named": false,
             "value": "DISTINCT_FROM"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "isnull_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[iI][sS][nN][uU][lL][lL]"
+          },
+          "named": false,
+          "value": "ISNULL"
+        }
+      ]
+    },
+    "notnull_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[nN][oO][tT][nN][uU][lL][lL]"
+          },
+          "named": false,
+          "value": "NOTNULL"
+        }
+      ]
+    },
+    "between_and_expression": {
+      "type": "PREC_LEFT",
+      "value": 3,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[nN][oO][tT]"
+                },
+                "named": false,
+                "value": "NOT"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "[bB][eE][tT][wW][eE][eE][nN]"
+            },
+            "named": false,
+            "value": "BETWEEN"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[sS][yY][mM][mM][eE][tT][rR][iI][cC]"
+                },
+                "named": false,
+                "value": "SYMMETRIC"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "[aA][nN][dD]"
+            },
+            "named": false,
+            "value": "AND"
           },
           {
             "type": "SYMBOL",
@@ -14608,6 +14721,15 @@
       },
       "named": false,
       "value": "FALSE"
+    },
+    "UNKNOWN": {
+      "type": "ALIAS",
+      "content": {
+        "type": "PATTERN",
+        "value": "[uU][nN][kK][nN][oO][wW][nN]"
+      },
+      "named": false,
+      "value": "UNKNOWN"
     },
     "number": {
       "type": "TOKEN",
@@ -15825,6 +15947,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "UNKNOWN"
+        },
+        {
+          "type": "SYMBOL",
           "name": "asterisk_expression"
         },
         {
@@ -15842,6 +15968,18 @@
         {
           "type": "SYMBOL",
           "name": "is_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "isnull_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "notnull_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "between_and_expression"
         },
         {
           "type": "SYMBOL",

@@ -454,6 +454,101 @@ SELECT a as x, b FROM table1 WHERE a IN (SELECT x FROM table2);
               (identifier))))))))
 
 ================================================================================
+SELECT with comparison predicate ISNULL
+================================================================================
+
+SELECT a FROM t WHERE a ISNULL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (isnull_expression
+        (identifier)))))
+
+================================================================================
+SELECT with comparison predicate NOTNULL
+================================================================================
+
+SELECT a FROM t WHERE a NOTNULL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (notnull_expression
+        (identifier)))))
+
+================================================================================
+SELECT with comparison predicate between and
+================================================================================
+
+SELECT a FROM t WHERE a BETWEEN 1 AND 5;
+SELECT a FROM t WHERE a NOT BETWEEN 1 AND 5;
+SELECT a FROM t WHERE a BETWEEN SYMMETRIC 1 AND 5;
+SELECT a FROM t WHERE a NOT BETWEEN SYMMETRIC 1 AND 5;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (between_and_expression
+        (identifier)
+        (number)
+        (number))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (between_and_expression
+        (identifier)
+        (number)
+        (number))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (between_and_expression
+        (identifier)
+        (number)
+        (number))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (between_and_expression
+        (identifier)
+        (number)
+        (number)))))
+
+================================================================================
 SELECT with limit
 ================================================================================
 

@@ -1500,6 +1500,7 @@ module.exports = grammar({
     _parenthesized_expression: $ =>
       prec.left(PREC.unary, seq("(", $._expression, ")")),
     with_ordinality: $ => kw("WITH ORDINALITY"),
+
     is_expression: $ =>
       prec.left(
         PREC.comparative,
@@ -1507,10 +1508,26 @@ module.exports = grammar({
           $._expression,
           kw("IS"),
           optional(kw("NOT")),
-          choice($.NULL, $.TRUE, $.FALSE, $.distinct_from),
+          choice($.NULL, $.TRUE, $.FALSE, $.UNKNOWN, $.distinct_from),
         ),
       ),
     distinct_from: $ => prec.left(seq(kw("DISTINCT FROM"), $._expression)),
+    isnull_expression: $ => seq($._expression, kw("ISNULL")),
+    notnull_expression: $ => seq($._expression, kw("NOTNULL")),
+    between_and_expression: $ =>
+      prec.left(
+        PREC.comparative,
+        seq(
+          $._expression,
+          optional(kw("NOT")),
+          kw("BETWEEN"),
+          optional(kw("SYMMETRIC")),
+          $._expression,
+          kw("AND"),
+          $._expression,
+        ),
+      ),
+
     boolean_expression: $ =>
       choice(
         prec.left(PREC.unary, seq(kw("NOT"), $._expression)),
@@ -1526,6 +1543,7 @@ module.exports = grammar({
     NULL: $ => kw("NULL"),
     TRUE: $ => kw("TRUE"),
     FALSE: $ => kw("FALSE"),
+    UNKNOWN: $ => kw("UNKNOWN"),
 
     number: $ => {
       const digits = repeat1(/[0-9]+_?/);
@@ -1669,11 +1687,15 @@ module.exports = grammar({
         $.TRUE,
         $.FALSE,
         $.NULL,
+        $.UNKNOWN,
         $.asterisk_expression,
         $._identifier,
         $.number,
         $.in_expression,
         $.is_expression,
+        $.isnull_expression,
+        $.notnull_expression,
+        $.between_and_expression,
         $.boolean_expression,
         $._parenthesized_expression,
         $.type_cast,
