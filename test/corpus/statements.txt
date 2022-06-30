@@ -3319,6 +3319,10 @@ TRUNCATE ONLY mytable;
 TRUNCATE TABLE mytable;
 TRUNCATE TABLE ONLY mytable;
 TRUNCATE mytable1, mytable1, "My Table 3";
+TRUNCATE TABLE tb1 *, tb2;
+TRUNCATE TABLE tb1, tb2 RESTART IDENTITY;
+TRUNCATE TABLE tb1, tb2 CONTINUE IDENTITY;
+TRUNCATE TABLE tb1, tb2 CONTINUE IDENTITY CASCADE;
 
 --------------------------------------------------------------------------------
 
@@ -3334,4 +3338,20 @@ TRUNCATE mytable1, mytable1, "My Table 3";
   (truncate_statement
     (identifier)
     (identifier)
-    (identifier)))
+    (identifier))
+  (truncate_statement
+    (identifier)
+    (identifier))
+  (truncate_statement
+    (identifier)
+    (identifier)
+    (restart_identity))
+  (truncate_statement
+    (identifier)
+    (identifier)
+    (continue_identity))
+  (truncate_statement
+    (identifier)
+    (identifier)
+    (continue_identity)
+    (relationship_behavior)))

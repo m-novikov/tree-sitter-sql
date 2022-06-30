@@ -347,6 +347,113 @@ FROM table1 AS t, table2 t2, table3
       (identifier))))
 
 ================================================================================
+SELECT with distinct clause
+================================================================================
+
+SELECT ALL a as x, b FROM table1 AS t;
+SELECT DISTINCT a as x, b FROM table1 AS t;
+SELECT DISTINCT ON (a + 1, mod(b, 3), c) a as x, b FROM table1 AS t;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (alias
+          (identifier))
+        (identifier)))
+    (from_clause
+      (identifier)
+      (alias
+        (identifier))))
+  (select_statement
+    (select_clause
+      (distinct_clause)
+      (select_clause_body
+        (identifier)
+        (alias
+          (identifier))
+        (identifier)))
+    (from_clause
+      (identifier)
+      (alias
+        (identifier))))
+  (select_statement
+    (select_clause
+      (distinct_clause
+        (expression_list
+          (binary_expression
+            (identifier)
+            (number))
+          (function_call
+            (identifier)
+            (identifier)
+            (number))
+          (identifier)))
+      (select_clause_body
+        (identifier)
+        (alias
+          (identifier))
+        (identifier)))
+    (from_clause
+      (identifier)
+      (alias
+        (identifier)))))
+
+================================================================================
+SELECT with in expression
+================================================================================
+
+SELECT a as x, b FROM table1 WHERE a IN (1, mod(2, 3), 4 * 5);
+SELECT a as x, b FROM table1 WHERE a IN (SELECT x FROM table2);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (alias
+          (identifier))
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (in_expression
+        (identifier)
+        (tuple
+          (number)
+          (function_call
+            (identifier)
+            (number)
+            (number))
+          (binary_expression
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (alias
+          (identifier))
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (in_expression
+        (identifier)
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)))
+            (from_clause
+              (identifier))))))))
+
+================================================================================
 SELECT with limit
 ================================================================================
 

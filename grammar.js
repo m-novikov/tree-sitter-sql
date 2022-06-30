@@ -178,8 +178,13 @@ module.exports = grammar({
         kw("TRUNCATE"),
         optional(kw("TABLE")),
         optional(kw("ONLY")),
-        commaSep1($._identifier),
+        commaSep1(field("table", seq($._identifier, optional("*")))),
+        optional($.restart_identity),
+        optional($.continue_identity),
+        optional($.relationship_behavior),
       ),
+    restart_identity: $ => kw("RESTART IDENTITY"),
+    continue_identity: $ => kw("CONTINUE IDENTITY"),
 
     comment_statement: $ =>
       seq(
@@ -1236,6 +1241,10 @@ module.exports = grammar({
     column_list: $ => seq("(", commaSep1($.table_column), ")"),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, $._aliased_expression)),
+    distinct_clause: $ =>
+      prec.right(
+        seq(kw("DISTINCT"), optional(seq(kw("ON"), $.expression_list))),
+      ),
     select_clause_body: $ =>
       commaSep1(
         seq(
@@ -1244,7 +1253,13 @@ module.exports = grammar({
         ),
       ),
     select_clause: $ =>
-      prec.right(seq(kw("SELECT"), optional($.select_clause_body))),
+      prec.right(
+        seq(
+          kw("SELECT"),
+          optional(choice(kw("ALL"), $.distinct_clause)),
+          optional($.select_clause_body),
+        ),
+      ),
     from_clause: $ => seq(kw("FROM"), commaSep1($._from_item)),
     _from_item: $ =>
       choice(
@@ -1377,7 +1392,12 @@ module.exports = grammar({
     in_expression: $ =>
       prec.left(
         PREC.comparative,
-        seq($._expression, optional(kw("NOT")), kw("IN"), $.tuple),
+        seq(
+          $._expression,
+          optional(kw("NOT")),
+          kw("IN"),
+          choice($.select_subexpression, $.tuple),
+        ),
       ),
     tuple: $ =>
       seq(

@@ -2447,6 +2447,11 @@
     }
   },
   {
+    "type": "continue_identity",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "create_domain_statement",
     "named": true,
     "fields": {},
@@ -3279,7 +3284,7 @@
   },
   {
     "type": "default",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -3624,6 +3629,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "distinct_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expression_list",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -7641,6 +7661,11 @@
     }
   },
   {
+    "type": "restart_identity",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "restart_with",
     "named": true,
     "fields": {
@@ -8188,9 +8213,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "distinct_clause",
+          "named": true
+        },
         {
           "type": "select_clause_body",
           "named": true
@@ -9714,17 +9743,40 @@
   {
     "type": "truncate_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "table": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "dotted_name",
+          "type": "continue_identity",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "relationship_behavior",
+          "named": true
+        },
+        {
+          "type": "restart_identity",
           "named": true
         }
       ]
@@ -11284,6 +11336,10 @@
     "named": false
   },
   {
+    "type": "CONTINUE_IDENTITY",
+    "named": false
+  },
+  {
     "type": "COST",
     "named": false
   },
@@ -11981,6 +12037,10 @@
   },
   {
     "type": "RESTART",
+    "named": false
+  },
+  {
+    "type": "RESTART_IDENTITY",
     "named": false
   },
   {
