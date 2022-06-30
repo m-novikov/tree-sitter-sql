@@ -2382,6 +2382,48 @@
     }
   },
   {
+    "type": "conflict_action",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "do_nothing",
+          "named": true
+        },
+        {
+          "type": "do_update",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conflict_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "index_item",
+          "named": true
+        },
+        {
+          "type": "on_constraint",
+          "named": true
+        },
+        {
+          "type": "where_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constrained_type",
     "named": true,
     "fields": {},
@@ -3237,7 +3279,7 @@
   },
   {
     "type": "default",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": false,
@@ -3466,6 +3508,11 @@
     }
   },
   {
+    "type": "default_values",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "deferrable",
     "named": true,
     "fields": {}
@@ -3689,6 +3736,30 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "do_nothing",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "do_update",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "set_clause",
+          "named": true
+        },
+        {
+          "type": "where_clause",
           "named": true
         }
       ]
@@ -5675,21 +5746,48 @@
   {
     "type": "insert_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "table_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "dotted_name",
+          "type": "alias",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "column_names",
           "named": true
         },
         {
-          "type": "identifier_list",
+          "type": "default_values",
+          "named": true
+        },
+        {
+          "type": "on_conflict",
+          "named": true
+        },
+        {
+          "type": "overriding_value",
+          "named": true
+        },
+        {
+          "type": "returning_clause",
           "named": true
         },
         {
@@ -6456,6 +6554,45 @@
     }
   },
   {
+    "type": "on_conflict",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "conflict_action",
+          "named": true
+        },
+        {
+          "type": "conflict_target",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "on_constraint",
+    "named": true,
+    "fields": {
+      "constraint_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_name",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "on_delete_action",
     "named": true,
     "fields": {
@@ -6734,6 +6871,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "overriding_value",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "owned_by",
@@ -7612,6 +7754,125 @@
         },
         {
           "type": "select_statement",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "returning_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "array_constructor",
+          "named": true
+        },
+        {
+          "type": "array_element_access",
+          "named": true
+        },
+        {
+          "type": "asterisk_expression",
+          "named": true
+        },
+        {
+          "type": "at_time_zone_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "epoch_from_expression",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "interval_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "json_access",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "row_constructor",
+          "named": true
+        },
+        {
+          "type": "rows_from_expression",
           "named": true
         },
         {
@@ -11099,6 +11360,10 @@
     "named": false
   },
   {
+    "type": "DEFAULT_VALUES",
+    "named": false
+  },
+  {
     "type": "DEFERRABLE",
     "named": false
   },
@@ -11144,6 +11409,14 @@
   },
   {
     "type": "DISTINCT_FROM",
+    "named": false
+  },
+  {
+    "type": "DO_NOTHING",
+    "named": false
+  },
+  {
+    "type": "DO_UPDATE",
     "named": false
   },
   {
@@ -11559,6 +11832,14 @@
     "named": false
   },
   {
+    "type": "ON_CONFLICT",
+    "named": false
+  },
+  {
+    "type": "ON_CONSTRAINT",
+    "named": false
+  },
+  {
     "type": "ON_DELETE",
     "named": false
   },
@@ -11588,6 +11869,10 @@
   },
   {
     "type": "OVER",
+    "named": false
+  },
+  {
+    "type": "OVERRIDING",
     "named": false
   },
   {
@@ -11708,6 +11993,10 @@
   },
   {
     "type": "RETURN",
+    "named": false
+  },
+  {
+    "type": "RETURNING",
     "named": false
   },
   {
@@ -11867,6 +12156,10 @@
     "named": false
   },
   {
+    "type": "SYSTEM",
+    "named": false
+  },
+  {
     "type": "TABLE",
     "named": false
   },
@@ -11960,6 +12253,10 @@
   },
   {
     "type": "VALIDATE_CONSTRAINT",
+    "named": false
+  },
+  {
+    "type": "VALUE",
     "named": false
   },
   {

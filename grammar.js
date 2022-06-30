@@ -1324,10 +1324,33 @@ module.exports = grammar({
       seq(
         kw("INSERT"),
         kw("INTO"),
-        $._identifier,
-        optional($.identifier_list),
-        choice($.values_clause, $.select_statement, $.set_clause),
+        field("table_name", $._identifier),
+        optional(seq(kw("AS"), $.alias)),
+        optional(alias($.identifier_list, $.column_names)),
+        optional($.overriding_value),
+        choice(
+          $.default_values,
+          $.values_clause,
+          $.select_statement,
+          $.set_clause,
+        ),
+        optional($.on_conflict),
+        optional($.returning_clause),
       ),
+    overriding_value: $ =>
+      seq(kw("OVERRIDING"), choice(kw("SYSTEM"), kw("USER")), kw("VALUE")),
+    default_values: $ => kw("DEFAULT VALUES"),
+    on_conflict: $ =>
+      seq(kw("ON CONFLICT"), optional($.conflict_target), $.conflict_action),
+    conflict_target: $ =>
+      choice(seq($.index_item, optional($.where_clause)), $.on_constraint),
+    on_constraint: $ =>
+      seq(kw("ON CONSTRAINT"), field("constraint_name", $._identifier)),
+    conflict_action: $ => choice($.do_nothing, $.do_update),
+    do_nothing: $ => kw("DO NOTHING"),
+    do_update: $ =>
+      seq(kw("DO UPDATE"), $.set_clause, optional($.where_clause)),
+    returning_clause: $ => seq(kw("RETURNING"), $._aliasable_expression),
     values_clause: $ =>
       seq(
         kw("VALUES"),
