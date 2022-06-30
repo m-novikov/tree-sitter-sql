@@ -772,11 +772,11 @@ CREATE VIEW foo(a, b) AS SELECT 1 a, 2 b;
       (select_statement
         (select_clause
           (select_clause_body
+            (number)
             (alias
-              (number)
               (identifier))
+            (number)
             (alias
-              (number)
               (identifier))))))))
 
 ================================================================================
@@ -895,11 +895,11 @@ CREATE MATERIALIZED VIEW foo(a, b) AS SELECT 1 a, 2 b;
       (select_statement
         (select_clause
           (select_clause_body
+            (number)
             (alias
-              (number)
               (identifier))
+            (number)
             (alias
-              (number)
               (identifier))))))))
 
 ================================================================================
@@ -1045,10 +1045,10 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS foo(a, b)
       (select_statement
         (select_clause
           (select_clause_body
+            (number)
             (alias
-              (number)
               (identifier))
+            (number)
             (alias
-              (number)
               (identifier))))))
     (data_hint)))

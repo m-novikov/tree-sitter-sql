@@ -84,12 +84,12 @@ SELECT (SELECT 1) AS a
   (select_statement
     (select_clause
       (select_clause_body
+        (select_subexpression
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (number)))))
         (alias
-          (select_subexpression
-            (select_statement
-              (select_clause
-                (select_clause_body
-                  (number)))))
           (identifier))))))
 
 ================================================================================
@@ -105,12 +105,12 @@ SELECT a, b AS c FROM table1 AS t;
     (select_clause
       (select_clause_body
         (identifier)
+        (identifier)
         (alias
-          (identifier)
           (identifier))))
     (from_clause
+      (identifier)
       (alias
-        (identifier)
         (identifier)))))
 
 ================================================================================
