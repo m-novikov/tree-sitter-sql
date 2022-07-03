@@ -1177,33 +1177,37 @@ module.exports = grammar({
     group_by_clause: $ =>
       seq(
         kw("GROUP BY"),
-        commaSep1($.group_expression),
+        commaSep1($.grouping_expression),
         optional($.having_clause),
       ),
     having_clause: $ => seq(kw("HAVING"), $._expression),
-    group_expression: $ =>
-      choice(
-        $._expression,
-        $.grouping_sets_clause,
-        $.rollup_clause,
-        $.cube_clause,
+    grouping_expression: $ =>
+      prec(
+        1,
+        choice(
+          $._simple_expression,
+          $.grouping_sets_clause,
+          $.rollup_clause,
+          $.cube_clause,
+        ),
       ),
     grouping_sets_clause: $ =>
-      seq(kw("GROUPING SETS"), "(", commaSep1($.expression_list), ")"),
+      seq(kw("GROUPING SETS"), "(", commaSep1($.grouping_set), ")"),
     rollup_clause: $ =>
       seq(
         kw("ROLLUP"),
         "(",
-        commaSep1(choice($._expression, $.expression_list)),
+        commaSep1(choice($._simple_expression, $.grouping_set)),
         ")",
       ),
     cube_clause: $ =>
       seq(
         kw("CUBE"),
         "(",
-        commaSep1(choice($._expression, $.expression_list)),
+        commaSep1(choice($._simple_expression, $.grouping_set)),
         ")",
       ),
+    grouping_set: $ => prec(1, seq("(", commaSep($._simple_expression), ")")),
     expression_list: $ => seq("(", commaSep($._expression), ")"),
     order_expression: $ =>
       seq($._expression, optional($.order), optional($.nulls_order)),
@@ -1232,13 +1236,21 @@ module.exports = grammar({
     alias: $ =>
       prec.right(
         choice(
-          seq($.identifier, optional(choice($.identifier_list, $.column_list))),
-          $.column_list,
+          seq(
+            $.identifier,
+            optional(
+              choice(
+                alias($.identifier_list, $.column_aliases),
+                $.column_definitions,
+              ),
+            ),
+          ),
+          $.column_definitions,
         ),
       ),
     _aliased_expression: $ => seq($._expression, optional(kw("AS")), $.alias),
     identifier_list: $ => seq("(", commaSep1($._identifier), ")"),
-    column_list: $ => seq("(", commaSep1($.table_column), ")"),
+    column_definitions: $ => seq("(", commaSep1($.table_column), ")"),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, $._aliased_expression)),
     distinct_clause: $ =>
@@ -1330,7 +1342,11 @@ module.exports = grammar({
         seq(
           $.identifier_list,
           "=",
-          choice($.select_subexpression, $.expression_list, $.row_constructor),
+          choice(
+            $.select_subexpression,
+            $.row_constructor,
+            $.composite_expression,
+          ),
         ),
       ),
 
@@ -1369,12 +1385,14 @@ module.exports = grammar({
     values_clause: $ =>
       seq(
         kw("VALUES"),
-        commaSep1(alias($.expression_list, $.values_clause_item)),
+        commaSep1($.values_item),
         optional($.order_by_clause),
         optional($.limit_clause),
         optional($.offset_clause),
         optional($.fetch_clause),
       ),
+    values_item: $ =>
+      seq("(", commaSep1(choice($._expression, kw("DEFAULT"))), ")"),
 
     // DELETE
     // TODO: support returning clauses
@@ -1631,6 +1649,8 @@ module.exports = grammar({
       seq(choice($.identifier, $.argument_reference), "[", $._expression, "]"),
 
     row_constructor: $ => seq(kw("ROW"), "(", commaSep($._expression), ")"),
+    composite_expression: $ =>
+      seq("(", $._expression, ",", commaSep1($._expression), ")"),
 
     unary_expression: $ =>
       prec(
@@ -1678,7 +1698,7 @@ module.exports = grammar({
     asterisk_expression: $ => choice("*", seq($._identifier, ".*")),
     interval_expression: $ => seq(token(prec(1, kw("INTERVAL"))), $.string),
     argument_reference: $ => seq("$", /\d+/),
-    _expression: $ =>
+    _simple_expression: $ =>
       choice(
         $.interval_expression,
         $.function_call,
@@ -1711,6 +1731,7 @@ module.exports = grammar({
         $.row_constructor,
         $.epoch_from_expression,
       ),
+    _expression: $ => choice($._simple_expression, $.composite_expression),
   },
 });
 

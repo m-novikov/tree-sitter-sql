@@ -113,7 +113,7 @@ UPDATE table1 SET (col1, col2) = (1, 2 + 1);
         (identifier_list
           (identifier)
           (identifier))
-        (expression_list
+        (composite_expression
           (number)
           (binary_expression
             (number)
@@ -202,7 +202,7 @@ UPDATE table1 SET
         (identifier_list
           (identifier)
           (identifier))
-        (expression_list
+        (composite_expression
           (number)
           (number))))))
 
@@ -225,6 +225,6 @@ UPDATE ONLY table1 * AS alias_name
         (identifier_list
           (identifier)
           (identifier))
-        (expression_list
+        (composite_expression
           (number)
           (number))))))

@@ -14,7 +14,7 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))))
@@ -23,14 +23,14 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
     (column_names
       (identifier))
     (values_clause
-      (values_clause_item
+      (values_item
         (number))))
   (insert_statement
     (identifier)
     (column_names
       (identifier))
     (values_clause
-      (values_clause_item
+      (values_item
         (number))))
   (insert_statement
     (identifier)
@@ -38,7 +38,7 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
       (identifier)
       (identifier))
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (number))))
   (insert_statement
@@ -66,11 +66,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b');
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))))
@@ -90,11 +90,11 @@ INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
       (identifier)
       (identifier))
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -119,11 +119,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') LIMIT 1, 1;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -132,11 +132,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') LIMIT 1, 1;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -144,11 +144,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') LIMIT 1, 1;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -170,24 +170,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') OFFSET 1 ROWS;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (offset_clause
-        (number))))
-  (insert_statement
-    (identifier)
-    (values_clause
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -196,11 +183,24 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') OFFSET 1 ROWS;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
+        (number)
+        (string
+          (content)))
+      (offset_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_item
+        (number)
+        (string
+          (content)))
+      (values_item
         (number)
         (string
           (content)))
@@ -226,23 +226,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (fetch_clause)))
-  (insert_statement
-    (identifier)
-    (values_clause
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -250,23 +238,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (fetch_clause)))
-  (insert_statement
-    (identifier)
-    (values_clause
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -274,11 +250,35 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_item
+        (number)
+        (string
+          (content)))
+      (values_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_item
+        (number)
+        (string
+          (content)))
+      (values_item
         (number)
         (string
           (content)))
@@ -287,24 +287,11 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (fetch_clause
-        (number))))
-  (insert_statement
-    (identifier)
-    (values_clause
-      (values_clause_item
-        (number)
-        (string
-          (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
@@ -313,11 +300,24 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
+        (number)
+        (string
+          (content)))
+      (fetch_clause
+        (number))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_item
+        (number)
+        (string
+          (content)))
+      (values_item
         (number)
         (string
           (content)))
@@ -337,11 +337,11 @@ INSERT INTO table1 OVERRIDING USER VALUE VALUES (1, 'a'), (2, 'b');
     (identifier)
     (overriding_value)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content)))
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))))
@@ -378,7 +378,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -388,7 +388,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -401,7 +401,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -414,7 +414,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -431,7 +431,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -447,7 +447,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -465,7 +465,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -483,7 +483,7 @@ INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHER
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -518,7 +518,7 @@ INSERT INTO table1 VALUES (1, 'a') RETURNING a + 1 AS r;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -527,7 +527,7 @@ INSERT INTO table1 VALUES (1, 'a') RETURNING a + 1 AS r;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -541,7 +541,7 @@ INSERT INTO table1 VALUES (1, 'a') RETURNING a + 1 AS r;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))
@@ -554,7 +554,7 @@ INSERT INTO table1 VALUES (1, 'a') RETURNING a + 1 AS r;
   (insert_statement
     (identifier)
     (values_clause
-      (values_clause_item
+      (values_item
         (number)
         (string
           (content))))

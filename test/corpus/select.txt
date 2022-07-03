@@ -252,7 +252,7 @@ SELECT t.a a, t.b b, t.c c FROM ROWS FROM (
           (number)
           (number))
         (alias
-          (column_list
+          (column_definitions
             (table_column
               (identifier)
               (type
@@ -266,14 +266,14 @@ SELECT t.a a, t.b b, t.c c FROM ROWS FROM (
           (string
             (content)))
         (alias
-          (column_list
+          (column_definitions
             (table_column
               (identifier)
               (type
                 (identifier))))))
       (alias
         (identifier)
-        (identifier_list
+        (column_aliases
           (identifier)
           (identifier)
           (identifier))))))
@@ -729,11 +729,11 @@ SELECT a, b FROM foo GROUP BY a + 1, b;
     (from_clause
       (identifier))
     (group_by_clause
-      (group_expression
+      (grouping_expression
         (binary_expression
           (identifier)
           (number)))
-      (group_expression
+      (grouping_expression
         (identifier)))))
 
 ================================================================================
@@ -753,17 +753,17 @@ SELECT a, b FROM foo GROUP BY GROUPING SETS ((), (a), (b), (a, b), (a + 1, b + 1
     (from_clause
       (identifier))
     (group_by_clause
-      (group_expression
+      (grouping_expression
         (grouping_sets_clause
-          (expression_list)
-          (expression_list
+          (grouping_set)
+          (grouping_set
             (identifier))
-          (expression_list
+          (grouping_set
             (identifier))
-          (expression_list
+          (grouping_set
             (identifier)
             (identifier))
-          (expression_list
+          (grouping_set
             (binary_expression
               (identifier)
               (number))
@@ -788,10 +788,10 @@ SELECT a, b FROM foo GROUP BY ROLLUP (a, (a, b), a + 1, b + 1);
     (from_clause
       (identifier))
     (group_by_clause
-      (group_expression
+      (grouping_expression
         (rollup_clause
           (identifier)
-          (expression_list
+          (grouping_set
             (identifier)
             (identifier))
           (binary_expression
@@ -818,10 +818,10 @@ SELECT a, b FROM foo GROUP BY CUBE (a, (a, b), a + 1, b + 1);
     (from_clause
       (identifier))
     (group_by_clause
-      (group_expression
+      (grouping_expression
         (cube_clause
           (identifier)
-          (expression_list
+          (grouping_set
             (identifier)
             (identifier))
           (binary_expression
@@ -848,9 +848,9 @@ SELECT a, b FROM foo GROUP BY a, b HAVING a > b;
     (from_clause
       (identifier))
     (group_by_clause
-      (group_expression
+      (grouping_expression
         (identifier))
-      (group_expression
+      (grouping_expression
         (identifier))
       (having_clause
         (binary_expression
@@ -879,30 +879,30 @@ SELECT a, b FROM foo GROUP BY
     (from_clause
       (identifier))
     (group_by_clause
-      (group_expression
+      (grouping_expression
         (binary_expression
           (identifier)
           (number)))
-      (group_expression
+      (grouping_expression
         (grouping_sets_clause
-          (expression_list)
-          (expression_list
+          (grouping_set)
+          (grouping_set
             (identifier)
             (identifier))))
-      (group_expression
+      (grouping_expression
         (rollup_clause
           (binary_expression
             (identifier)
             (number))
-          (expression_list
+          (grouping_set
             (identifier)
             (identifier))))
-      (group_expression
+      (grouping_expression
         (cube_clause
           (binary_expression
             (identifier)
             (number))
-          (expression_list
+          (grouping_set
             (identifier)
             (identifier))))
       (having_clause
@@ -1058,7 +1058,7 @@ FROM generate_series(1,10) AS s(i);
         (number))
       (alias
         (identifier)
-        (identifier_list
+        (column_aliases
           (identifier))))))
 
 ================================================================================
@@ -1613,3 +1613,24 @@ SELECT a FROM foo WHERE exists(SELECT 1 FROM bar);
               (number)))
           (from_clause
             (identifier)))))))
+
+================================================================================
+SELECT ORDER BY composite expresion
+================================================================================
+
+SELECT * FROM foo ORDER BY (a, b);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (asterisk_expression)))
+    (from_clause
+      (identifier))
+    (order_by_clause
+      (order_expression
+        (composite_expression
+          (identifier)
+          (identifier))))))
