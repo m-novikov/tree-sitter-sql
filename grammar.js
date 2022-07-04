@@ -117,6 +117,7 @@ module.exports = grammar({
           $.alter_type_statement,
           $.alter_table_statement,
           $.combining_query,
+          $.vacuum_statement,
         ),
         optional(";"),
       ),
@@ -149,6 +150,7 @@ module.exports = grammar({
             $.alter_type_statement,
             $.alter_table_statement,
             $.combining_query,
+            $.vacuum_statement,
           ),
           optional(";"),
         ),
@@ -850,6 +852,40 @@ module.exports = grammar({
         optional(seq(kw("ON"), field("target_table", $._identifier))),
         optional(choice(kw("CASCADE"), kw("RESTRICT"))),
       ),
+
+    vacuum_statement: $ =>
+      prec.right(
+        seq(
+          kw("VACUUM"),
+          choice(
+            seq("(", commaSep1($.vacuum_option), ")"),
+            seq(
+              optional(kw("FULL")),
+              optional(kw("FREEZE")),
+              optional(kw("VERBOSE")),
+              optional(kw("ANALYZE")),
+            ),
+          ),
+          commaSep($._table_and_columns),
+        ),
+      ),
+    _table_and_columns: $ =>
+      prec.right(choice($._identifier, $.table_and_columns)),
+    _boolean_value: $ => choice($.TRUE, $.FALSE),
+    vacuum_option: $ =>
+      choice(
+        seq(kw("FULL"), optional($._boolean_value)),
+        seq(kw("FREEZE"), optional($._boolean_value)),
+        seq(kw("VERBOSE"), optional($._boolean_value)),
+        seq(kw("ANALYZE"), optional($._boolean_value)),
+        seq(kw("DISABLE_PAGE_SKIPPING"), optional($._boolean_value)),
+        seq(kw("SKIP_LOCKED"), optional($._boolean_value)),
+        seq(kw("INDEX_CLEANUP"), choice(kw("AUTO"), kw("ON"), kw("OFF"))),
+        seq(kw("PROCESS_TOAST"), optional($._boolean_value)),
+        seq(kw("TRUNCATE"), optional($._boolean_value)),
+        seq(kw("PARALLEL"), $.number),
+      ),
+
     set_statement: $ =>
       seq(
         kw("SET"),
@@ -1242,21 +1278,15 @@ module.exports = grammar({
     where_clause: $ => seq(kw("WHERE"), $._expression),
     alias: $ =>
       prec.right(
-        choice(
-          seq(
-            $.identifier,
-            optional(
-              choice(
-                alias($.identifier_list, $.column_aliases),
-                $.column_definitions,
-              ),
-            ),
-          ),
-          $.column_definitions,
-        ),
+        choice($.identifier, $.table_and_columns, $.column_definitions),
       ),
     _aliased_expression: $ => seq($._expression, optional(kw("AS")), $.alias),
     identifier_list: $ => seq("(", commaSep1($._identifier), ")"),
+    table_and_columns: $ =>
+      seq(
+        $._identifier,
+        choice(alias($.identifier_list, $.column_names), $.column_definitions),
+      ),
     column_definitions: $ => seq("(", commaSep1($.table_column), ")"),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, $._aliased_expression)),
@@ -1445,6 +1475,7 @@ module.exports = grammar({
     conditional_expression: $ =>
       seq(
         kw("CASE"),
+        optional($._expression),
         repeat1(seq(kw("WHEN"), $._expression, kw("THEN"), $._expression)),
         optional(seq(kw("ELSE"), $._expression)),
         kw("END"),

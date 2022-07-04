@@ -272,11 +272,12 @@ SELECT t.a a, t.b b, t.c c FROM ROWS FROM (
               (type
                 (identifier))))))
       (alias
-        (identifier)
-        (column_aliases
+        (table_and_columns
           (identifier)
-          (identifier)
-          (identifier))))))
+          (column_names
+            (identifier)
+            (identifier)
+            (identifier)))))))
 
 ================================================================================
 SELECT statement with tablesample clause
@@ -1057,9 +1058,10 @@ FROM generate_series(1,10) AS s(i);
         (number)
         (number))
       (alias
-        (identifier)
-        (column_aliases
-          (identifier))))))
+        (table_and_columns
+          (identifier)
+          (column_names
+            (identifier)))))))
 
 ================================================================================
 SELECT window function call

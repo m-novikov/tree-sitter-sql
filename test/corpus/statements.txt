@@ -3381,3 +3381,74 @@ TRUNCATE TABLE tb1, tb2 CONTINUE IDENTITY CASCADE;
     (identifier)
     (continue_identity)
     (relationship_behavior)))
+
+================================================================================
+VACUUM statement
+================================================================================
+
+VACUUM FULL foo, bar;
+VACUUM FULL FREEZE VERBOSE ANALYZE foo(col1, col2), bar(col1, col2);
+VACUUM (FULL FALSE, FREEZE FALSE, VERBOSE FALSE, ANALYZE FALSE) foo(col1, col2), bar(col1, col2);
+VACUUM (
+  FULL, FREEZE, VERBOSE, ANALYZE, DISABLE_PAGE_SKIPPING FALSE, SKIP_LOCKED FALSE,
+  INDEX_CLEANUP AUTO, PROCESS_TOAST TRUE, TRUNCATE FALSE, PARALLEL 3
+) foo(col1, col2), bar;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (vacuum_statement
+    (identifier)
+    (identifier))
+  (vacuum_statement
+    (table_and_columns
+      (identifier)
+      (column_names
+        (identifier)
+        (identifier)))
+    (table_and_columns
+      (identifier)
+      (column_names
+        (identifier)
+        (identifier))))
+  (vacuum_statement
+    (vacuum_option
+      (FALSE))
+    (vacuum_option
+      (FALSE))
+    (vacuum_option
+      (FALSE))
+    (vacuum_option
+      (FALSE))
+    (table_and_columns
+      (identifier)
+      (column_names
+        (identifier)
+        (identifier)))
+    (table_and_columns
+      (identifier)
+      (column_names
+        (identifier)
+        (identifier))))
+  (vacuum_statement
+    (vacuum_option)
+    (vacuum_option)
+    (vacuum_option)
+    (vacuum_option)
+    (vacuum_option
+      (FALSE))
+    (vacuum_option
+      (FALSE))
+    (vacuum_option)
+    (vacuum_option
+      (TRUE))
+    (vacuum_option
+      (FALSE))
+    (vacuum_option
+      (number))
+    (table_and_columns
+      (identifier)
+      (column_names
+        (identifier)
+        (identifier)))
+    (identifier)))

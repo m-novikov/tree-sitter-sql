@@ -236,19 +236,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "column_aliases",
-          "named": true
-        },
         {
           "type": "column_definitions",
           "named": true
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "table_and_columns",
           "named": true
         }
       ]
@@ -2516,25 +2516,6 @@
     }
   },
   {
-    "type": "column_aliases",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dotted_name",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "column_definitions",
     "named": true,
     "fields": {},
@@ -3829,7 +3810,7 @@
   },
   {
     "type": "default",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -5565,6 +5546,10 @@
         },
         {
           "type": "update_statement",
+          "named": true
+        },
+        {
+          "type": "vacuum_statement",
           "named": true
         }
       ]
@@ -10566,6 +10551,10 @@
         {
           "type": "update_statement",
           "named": true
+        },
+        {
+          "type": "vacuum_statement",
+          "named": true
         }
       ]
     }
@@ -10719,6 +10708,33 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "table_and_columns",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "column_definitions",
+          "named": true
+        },
+        {
+          "type": "column_names",
+          "named": true
+        },
         {
           "type": "dotted_name",
           "named": true
@@ -11049,6 +11065,10 @@
         },
         {
           "type": "update_statement",
+          "named": true
+        },
+        {
+          "type": "vacuum_statement",
           "named": true
         }
       ]
@@ -12221,6 +12241,56 @@
     }
   },
   {
+    "type": "vacuum_option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "vacuum_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dotted_name",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "table_and_columns",
+          "named": true
+        },
+        {
+          "type": "vacuum_option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "validata_constraint",
     "named": true,
     "fields": {
@@ -12878,6 +12948,10 @@
     "named": false
   },
   {
+    "type": "ANALYZE",
+    "named": false
+  },
+  {
     "type": "AND",
     "named": false
   },
@@ -12903,6 +12977,10 @@
   },
   {
     "type": "AT_TIME_ZONE",
+    "named": false
+  },
+  {
+    "type": "AUTO",
     "named": false
   },
   {
@@ -13102,6 +13180,10 @@
     "named": false
   },
   {
+    "type": "DISABLE_PAGE_SKIPPING",
+    "named": false
+  },
+  {
     "type": "DISABLE_ROW_LEVEL_SECURITY",
     "named": false
   },
@@ -13274,6 +13356,10 @@
     "named": false
   },
   {
+    "type": "FREEZE",
+    "named": false
+  },
+  {
     "type": "FROM",
     "named": false
   },
@@ -13343,6 +13429,10 @@
   },
   {
     "type": "INDEX",
+    "named": false
+  },
+  {
+    "type": "INDEX_CLEANUP",
     "named": false
   },
   {
@@ -13542,6 +13632,10 @@
     "named": false
   },
   {
+    "type": "OFF",
+    "named": false
+  },
+  {
     "type": "OFFSET",
     "named": false
   },
@@ -13643,6 +13737,10 @@
   },
   {
     "type": "PROCEDURE",
+    "named": false
+  },
+  {
+    "type": "PROCESS_TOAST",
     "named": false
   },
   {
@@ -13862,6 +13960,10 @@
     "named": false
   },
   {
+    "type": "SKIP_LOCKED",
+    "named": false
+  },
+  {
     "type": "SQL_SECURITY",
     "named": false
   },
@@ -13994,6 +14096,10 @@
     "named": false
   },
   {
+    "type": "VACUUM",
+    "named": false
+  },
+  {
     "type": "VALIDATE_CONSTRAINT",
     "named": false
   },
@@ -14015,6 +14121,10 @@
   },
   {
     "type": "VARYING",
+    "named": false
+  },
+  {
+    "type": "VERBOSE",
     "named": false
   },
   {
