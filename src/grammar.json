@@ -134,6 +134,10 @@
             {
               "type": "SYMBOL",
               "name": "vacuum_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "do_statement"
             }
           ]
         },
@@ -259,6 +263,10 @@
               {
                 "type": "SYMBOL",
                 "name": "vacuum_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "do_statement"
               }
             ]
           },
@@ -7598,6 +7606,36 @@
               "name": "number"
             }
           ]
+        }
+      ]
+    },
+    "do_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[dD][oO]"
+          },
+          "named": false,
+          "value": "DO"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_function_language"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },

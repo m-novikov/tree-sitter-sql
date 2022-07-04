@@ -3452,3 +3452,21 @@ VACUUM (
         (identifier)
         (identifier)))
     (identifier)))
+
+================================================================================
+DO statement
+================================================================================
+
+DO $$UPDATE foo SET a = 1$$;
+DO LANGUAGE SQL $$UPDATE foo SET a = 1$$;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (do_statement
+    (string
+      (content)))
+  (do_statement
+    (language)
+    (string
+      (content))))

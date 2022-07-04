@@ -3810,7 +3810,7 @@
   },
   {
     "type": "default",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": false,
@@ -4351,6 +4351,25 @@
     "type": "do_nothing",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "do_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "language",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "do_update",
@@ -5514,6 +5533,10 @@
         },
         {
           "type": "delete_statement",
+          "named": true
+        },
+        {
+          "type": "do_statement",
           "named": true
         },
         {
@@ -10517,6 +10540,10 @@
           "named": true
         },
         {
+          "type": "do_statement",
+          "named": true
+        },
+        {
           "type": "drop_statement",
           "named": true
         },
@@ -11033,6 +11060,10 @@
         },
         {
           "type": "delete_statement",
+          "named": true
+        },
+        {
+          "type": "do_statement",
           "named": true
         },
         {
@@ -13201,6 +13232,10 @@
   },
   {
     "type": "DISTINCT_FROM",
+    "named": false
+  },
+  {
+    "type": "DO",
     "named": false
   },
   {

@@ -118,6 +118,7 @@ module.exports = grammar({
           $.alter_table_statement,
           $.combining_query,
           $.vacuum_statement,
+          $.do_statement,
         ),
         optional(";"),
       ),
@@ -151,6 +152,7 @@ module.exports = grammar({
             $.alter_table_statement,
             $.combining_query,
             $.vacuum_statement,
+            $.do_statement,
           ),
           optional(";"),
         ),
@@ -885,6 +887,8 @@ module.exports = grammar({
         seq(kw("TRUNCATE"), optional($._boolean_value)),
         seq(kw("PARALLEL"), $.number),
       ),
+
+    do_statement: $ => seq(kw("DO"), optional($._function_language), $.string),
 
     set_statement: $ =>
       seq(
