@@ -22,6 +22,8 @@ const comparative_operators = [
   "!~",
   "~*",
   "!~*",
+  "@>",
+  "<@",
 ];
 
 // Generate case insentitive match for SQL keyword
@@ -114,6 +116,7 @@ module.exports = grammar({
           $.create_materialized_view_statement,
           $.alter_type_statement,
           $.alter_table_statement,
+          $.combining_query,
         ),
         optional(";"),
       ),
@@ -145,6 +148,7 @@ module.exports = grammar({
             $.create_materialized_view_statement,
             $.alter_type_statement,
             $.alter_table_statement,
+            $.combining_query,
           ),
           optional(";"),
         ),
@@ -339,11 +343,13 @@ module.exports = grammar({
     drop_not_null: $ => kw("DROP NOT NULL"),
     drop_expression: $ => seq(kw("DROP EXPRESSION"), optional($.if_exists)),
     add_generated: $ =>
-      seq(
-        kw("ADD GENERATED"),
-        choice(kw("ALWAYS"), kw("BY DEFAULT")),
-        kw("AS IDENTITY"),
-        optional(seq("(", repeat1($._sequence_option), ")")),
+      prec.right(
+        seq(
+          kw("ADD GENERATED"),
+          choice(kw("ALWAYS"), kw("BY DEFAULT")),
+          kw("AS IDENTITY"),
+          optional(seq("(", repeat1($._sequence_option), ")")),
+        ),
       ),
     set_generated: $ =>
       seq(kw("SET GENERATED"), choice(kw("ALWAYS"), kw("BY DEFAULT"))),
@@ -1032,18 +1038,19 @@ module.exports = grammar({
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
     _column_default_expression: $ =>
       choice(
+        $.function_call,
         $._parenthesized_expression,
         $.string,
         $.number,
         $.identifier,
-        $.function_call,
+        $.type_cast,
       ),
     default_clause: $ =>
       seq(
         kw("DEFAULT"),
         // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
         // TODO: simple expression to use for check and default
-        choice($._column_default_expression, $.type_cast),
+        $._column_default_expression,
       ),
     table_parameters: $ =>
       seq(
@@ -1320,8 +1327,44 @@ module.exports = grammar({
       ),
     join_condition: $ => seq(kw("ON"), $._expression),
 
+    _combinable_query: $ =>
+      prec.right(
+        choice(
+          $.select_statement,
+          $.select_subexpression,
+          $._aliased_subquery,
+          $.combining_query,
+        ),
+      ),
+    _aliased_subquery: $ =>
+      prec(1, seq($.select_subexpression, optional(kw("AS")), $.alias)),
+    combining_query: $ =>
+      choice(
+        ...[
+          [choice(kw("UNION"), kw("EXCEPT")), PREC.additive],
+          [kw("INTERSECT"), PREC.multiplicative],
+        ].map(([combinator, precedence]) =>
+          prec.left(
+            precedence,
+            seq(
+              $._combinable_query,
+              combinator,
+              optional(kw("ALL")),
+              $._combinable_query,
+            ),
+          ),
+        ),
+      ),
     select_subexpression: $ =>
-      prec(1, seq(optional(kw("LATERAL")), "(", $.select_statement, ")")),
+      prec(
+        1,
+        seq(
+          optional(kw("LATERAL")),
+          "(",
+          choice($.select_statement, $.combining_query),
+          ")",
+        ),
+      ),
 
     // UPDATE
     _update_statement: $ =>
@@ -1426,12 +1469,14 @@ module.exports = grammar({
       ),
     // TODO: named constraints
     references_constraint: $ =>
-      seq(
-        kw("REFERENCES"),
-        $._identifier,
-        optional($.identifier_list),
-        // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
-        repeat(choice($.on_update_action, $.on_delete_action)),
+      prec.right(
+        seq(
+          kw("REFERENCES"),
+          $._identifier,
+          optional($.identifier_list),
+          // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
+          repeat(choice($.on_update_action, $.on_delete_action)),
+        ),
       ),
     on_update_action: $ =>
       seq(kw("ON UPDATE"), field("action", $._constraint_action)),
@@ -1587,7 +1632,7 @@ module.exports = grammar({
       ),
     identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
     dotted_name: $ => prec.left(PREC.primary, sep2($.identifier, ".")),
-    _identifier: $ => choice($.identifier, $.dotted_name),
+    _identifier: $ => prec(PREC.primary, choice($.identifier, $.dotted_name)),
     string: $ =>
       choice(
         seq("'", field("content", alias(/(''|[^'])*/, $.content)), "'"),
@@ -1626,6 +1671,7 @@ module.exports = grammar({
           $.function_call,
           $.array_constructor,
           $.type_cast,
+          $.number,
         ),
         "::",
         field("type", $._type),

@@ -2388,6 +2388,8 @@ ALTER TABLE
 ALTER TABLE ONLY foo ALTER COLUMN myid SET DEFAULT nextval('myseq0'::regclass);
 ALTER TABLE bar
     ADD COLUMN col1 UUID REFERENCES baz (col1) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE bar
+    ADD COLUMN col1 TEXT DEFAULT 0::text NOT NULL;
 ALTER TABLE mytable0
     ADD FOREIGN KEY (mykey) REFERENCES mytable1 (col1_id)
       ON UPDATE CASCADE ON DELETE RESTRICT INITIALLY DEFERRED;
@@ -2405,6 +2407,7 @@ ALTER TABLE foo DETACH PARTITION bar CONCURRENTLY;
 ALTER TABLE foo DROP COLUMN IF EXISTS bar RESTRICT;
 ALTER TABLE foo ALTER COLUMN bar SET DATA TYPE INTEGER COLLATE collation USING bar::text;
 ALTER TABLE foo ALTER COLUMN bar SET DEFAULT max(bar, baz);
+ALTER TABLE foo ALTER COLUMN bar SET DEFAULT 1::NUMERIC;
 ALTER TABLE foo ALTER COLUMN bar DROP DEFAULT;
 ALTER TABLE foo ALTER COLUMN bar SET NOT NULL;
 ALTER TABLE foo ALTER COLUMN bar DROP NOT NULL;
@@ -2482,6 +2485,20 @@ ALTER TABLE foo
             (identifier))
           (on_update_action)
           (on_delete_action)))))
+  (alter_table_statement
+    (identifier)
+    (add_column
+      (table_column
+        (identifier)
+        (type
+          (identifier))
+        (default_clause
+          (type_cast
+            (number)
+            (type
+              (identifier))))
+        (null_constraint
+          (NULL)))))
   (alter_table_statement
     (identifier)
     (add_table_constraint
@@ -2592,6 +2609,15 @@ ALTER TABLE foo
           (identifier)
           (identifier)
           (identifier)))))
+  (alter_table_statement
+    (identifier)
+    (alter_column
+      (identifier)
+      (set_default
+        (type_cast
+          (number)
+          (type
+            (identifier))))))
   (alter_table_statement
     (identifier)
     (alter_column

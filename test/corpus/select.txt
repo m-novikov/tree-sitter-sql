@@ -1634,3 +1634,296 @@ SELECT * FROM foo ORDER BY (a, b);
         (composite_expression
           (identifier)
           (identifier))))))
+
+================================================================================
+SELECT combining queries
+================================================================================
+
+SELECT a FROM foo UNION SELECT b FROM bar;
+SELECT a FROM foo UNION ALL SELECT b FROM bar;
+SELECT a FROM foo INTERSECT SELECT b FROM bar;
+SELECT a FROM foo INTERSECT ALL SELECT b FROM bar;
+SELECT a FROM foo EXCEPT SELECT b FROM bar;
+SELECT a FROM foo EXCEPT ALL SELECT b FROM bar;
+
+SELECT a FROM foo UNION (SELECT b FROM bar) AS baz;
+(SELECT a FROM foo) AS baz UNION SELECT b FROM bar;
+
+SELECT a FROM foo UNION SELECT b FROM bar UNION ALL SELECT c FROM baz;
+SELECT a FROM foo UNION (SELECT b FROM bar UNION ALL SELECT c FROM baz) AS qux;
+SELECT a FROM foo UNION SELECT b FROM bar INTERSECT SELECT c FROM baz;
+SELECT a FROM foo UNION SELECT b FROM bar EXCEPT ALL SELECT b FROM baz INTERSECT SELECT c FROM qux;
+(SELECT a FROM foo UNION SELECT b FROM bar EXCEPT ALL SELECT b FROM baz) AS quux INTERSECT SELECT c FROM qux;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_subexpression
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier))))
+    (alias
+      (identifier)))
+  (combining_query
+    (select_subexpression
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier))))
+    (alias
+      (identifier))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (combining_query
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier)))
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier))))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier))))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (select_subexpression
+      (combining_query
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (identifier)))
+          (from_clause
+            (identifier)))
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (identifier)))
+          (from_clause
+            (identifier)))))
+    (alias
+      (identifier)))
+  (combining_query
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))
+    (combining_query
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier)))
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier)))))
+  (combining_query
+    (combining_query
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier)))
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier))))
+    (combining_query
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier)))
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier)))))
+  (combining_query
+    (select_subexpression
+      (combining_query
+        (combining_query
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)))
+            (from_clause
+              (identifier)))
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)))
+            (from_clause
+              (identifier))))
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (identifier)))
+          (from_clause
+            (identifier)))))
+    (alias
+      (identifier))
+    (select_statement
+      (select_clause
+        (select_clause_body
+          (identifier)))
+      (from_clause
+        (identifier)))))
+
+================================================================================
+SELECT JSON comparison
+================================================================================
+
+SELECT '{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb;
+SELECT '{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (binary_expression
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier)))
+          (type_cast
+            (string
+              (content))
+            (type
+              (identifier))))))))
