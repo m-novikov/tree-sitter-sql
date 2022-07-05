@@ -455,6 +455,41 @@ END
           (number))))))
 
 ================================================================================
+CREATE FUNCTION with default parameter values
+================================================================================
+
+CREATE FUNCTION add(a INTEGER = 1, b INTEGER = 2) RETURNS INTEGER
+    LANGUAGE SQL
+    RETURN a + b;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))
+        (default_value
+          (number)))
+      (create_function_parameter
+        (identifier)
+        (type
+          (identifier))
+        (default_value
+          (number))))
+    (type
+      (identifier))
+    (language)
+    (function_body
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
 CREATE PROCEDURE
 ================================================================================
 

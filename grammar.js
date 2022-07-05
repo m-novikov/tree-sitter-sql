@@ -718,7 +718,7 @@ module.exports = grammar({
         ),
         optional($.identifier),
         choice($._type, $.constrained_type),
-        optional(seq("=", alias($._expression, $.default))),
+        optional(seq("=", alias($._expression, $.default_value))),
       ),
     create_function_parameters: $ =>
       seq("(", optional(commaSep1($.create_function_parameter)), ")"),
