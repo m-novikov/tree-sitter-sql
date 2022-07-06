@@ -11,11 +11,13 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
+    - name: install treesitter-cli
+      run: cargo install tree-sitter-cli
+    - name: generate parser
+      run: tree-sitter generate
     - name: Build
       run: cargo build --verbose
     - name: Run tests

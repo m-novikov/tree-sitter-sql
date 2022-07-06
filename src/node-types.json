@@ -2609,7 +2609,7 @@
   },
   {
     "type": "default",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
