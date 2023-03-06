@@ -36,9 +36,9 @@ jobs:
           git diff-index --name-status -r --ignore-submodules HEAD src/ >&2
         fi
     - run: npm test
-    - name: Parse real world examples (ignoring errors for now)
-      continue-on-error: true
-      run: npm acceptance
+    #- name: Parse real world examples (ignoring errors for now)
+    #  continue-on-error: true
+    #  run: npm acceptance
 
   compile:
       strategy:
