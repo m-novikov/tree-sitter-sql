@@ -24,7 +24,7 @@
   "author": "Maksim Novikov <mnovikov.work@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.16.0"
+    "nan": "^2.14.2"
   },
   "devDependencies": {
     "prettier": "^2.4.1",
