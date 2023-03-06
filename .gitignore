@@ -4,7 +4,3 @@ target/
 build/
 venv/
 yarn.lock
-src/grammar.json
-src/grammar.json.rej
-src/node-types.json
-src/parser.c
