@@ -191,7 +191,10 @@ module.exports = grammar({
       ),
 
     begin_statement: $ =>
-      seq(kw("BEGIN"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
+      choice(
+        seq(kw("BEGIN"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
+        seq(kw("START"), kw("TRANSACTION")),
+      ),
     commit_statement: $ =>
       seq(kw("COMMIT"), optional(choice(kw("WORK"), kw("TRANSACTION")))),
     rollback_statement: $ =>

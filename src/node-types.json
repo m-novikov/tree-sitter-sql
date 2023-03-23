@@ -2615,7 +2615,7 @@
   },
   {
     "type": "default",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": false,
