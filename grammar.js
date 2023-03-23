@@ -71,7 +71,7 @@ function kv(key, value) {
 }
 
 module.exports = grammar({
-  name: "sql",
+  name: "sql_postgres",
   extras: $ => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   externals: $ => [
     $._dollar_quoted_string_tag,

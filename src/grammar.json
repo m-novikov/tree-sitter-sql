@@ -1,5 +1,5 @@
 {
-  "name": "sql",
+  "name": "sql_postgres",
   "rules": {
     "source_file": {
       "type": "REPEAT",
