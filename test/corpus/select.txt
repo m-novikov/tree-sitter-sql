@@ -1281,3 +1281,120 @@ FROM foo;
           (identifier))))
     (from_clause
       (identifier))))
+
+================================================================================
+SELECT array constructors
+================================================================================
+
+SELECT ARRAY[1, 2, 3+4];
+SELECT ARRAY(SELECT a FROM tb1);
+SELECT ARRAY[ARRAY[1,2], ARRAY[3,4]];
+SELECT ARRAY[]::integer[];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (number)
+          (number)
+          (binary_expression
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (select_statement
+            (select_clause
+              (select_clause_body
+                (identifier)))
+            (from_clause
+              (identifier)))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_constructor
+          (array_constructor
+            (number)
+            (number))
+          (array_constructor
+            (number)
+            (number))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (type_cast
+          (array_constructor)
+          (array_type
+            (type
+              (identifier))))))))
+
+================================================================================
+SELECT row constructors
+================================================================================
+
+SELECT ROW(1,2.5,'this is a test');
+SELECT ROW(t.*, 42) FROM t;
+SELECT ROW(t.f1, t.f2, 42) FROM t;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (number)
+          (number)
+          (string
+            (content))))))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (asterisk_expression
+            (identifier))
+          (number))))
+    (from_clause
+      (identifier)))
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (row_constructor
+          (dotted_name
+            (identifier)
+            (identifier))
+          (dotted_name
+            (identifier)
+            (identifier))
+          (number))))
+    (from_clause
+      (identifier))))
+
+================================================================================
+SELECT function call with select statement as argument
+================================================================================
+
+SELECT a FROM foo WHERE exists(SELECT 1 FROM bar);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)))
+    (from_clause
+      (identifier))
+    (where_clause
+      (function_call
+        (identifier)
+        (select_statement
+          (select_clause
+            (select_clause_body
+              (number)))
+          (from_clause
+            (identifier)))))))
