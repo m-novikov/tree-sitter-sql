@@ -1,15 +1,15 @@
 const PREC = {
-  primary: 8,
-  unary: 7,
-  exp: 6,
-  multiplicative: 5,
-  additive: 4,
-  comparative: 3,
-  and: 2,
-  or: 1,
+  primary: 16,
+  unary: 14,
+  exp: 12,
+  multiplicative: 10,
+  additive: 8,
+  comparative: 6,
+  and: 4,
+  or: 2,
 };
 const multiplicative_operators = ["*", "/", "%", "<<", ">>", "&"];
-const additive_operators = ["+", "-", "|", "#"];
+const additive_operators = ["+", "-", "|", "#", "||"];
 const comparative_operators = [
   "<",
   "<=",
@@ -145,6 +145,7 @@ module.exports = grammar({
         ),
       ),
 
+
     with_clause: $ =>
       seq(kw("WITH"), optional(kw("RECURSIVE")), commaSep1($.cte)),
 
@@ -158,12 +159,30 @@ module.exports = grammar({
           $.select_statement,
           $.delete_statement,
           $.insert_statement,
-          $.update_statement,
+          $.update_statement
         ),
         ")",
       ),
 
-    select_statement: $ => seq(optional($.with_clause), $._select_statement),
+    select_statement: $ => prec.left(1, $._select_statement_unpack),
+    _select_statement_in_parens: $ => 
+      prec.left(PREC.unary, seq("(", $._select_statement_unpack, ")")),
+    _select_statement_unpack: $ =>
+      choice(
+        seq(optional($.with_clause), $._select_statement),
+        $._select_statement_in_parens,
+        $.set_select_statement
+      ),
+    set_select_statement: $ =>
+      prec.left(
+        seq(
+          $.select_statement,
+          choice(kw("INTERSECT"), kw("UNION"), kw("EXCEPT")),
+          optional(choice(kw("ALL"), kw("DISTINCT"))),
+          $.select_statement
+        )
+      ),
+      
     insert_statement: $ => seq(optional($.with_clause), $._insert_statement),
     update_statement: $ => seq(optional($.with_clause), $._update_statement),
     delete_statement: $ => seq(optional($.with_clause), $._delete_statement),
@@ -689,12 +708,14 @@ module.exports = grammar({
     direction_constraint: _ => choice(kw("ASC"), kw("DESC")),
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
     _column_default_expression: $ =>
-      choice(
-        $._parenthesized_expression,
-        $.string,
-        $.number,
-        $.identifier,
-        $.function_call,
+      prec(1, // new
+        choice(
+          $._parenthesized_expression,
+          $.string,
+          $.number,
+          $.identifier,
+          $.function_call,
+        )
       ),
     default_clause: $ =>
       seq(
@@ -894,9 +915,9 @@ module.exports = grammar({
     limit_clause: $ =>
       seq(
         kw("LIMIT"),
-        choice($.number, kw("ALL")),
-        optional(seq(",", $.number)), // MySQL LIMIT a, b
-      ),
+        choice($._expression, kw("ALL")),
+        optional(seq(",", $._expression)), // MySQL LIMIT a, b
+      ), 
     offset_clause: $ =>
       prec.right(
         seq(kw("OFFSET"), $.number, optional(choice(kw("ROW"), kw("ROWS")))),
@@ -909,65 +930,61 @@ module.exports = grammar({
         choice(kw("ROW"), kw("ROWS")),
         kw("ONLY"),
       ),
-    where_clause: $ => seq(kw("WHERE"), $._expression),
+    where_clause: $ => seq(kw("WHERE"), $._expression), 
+      
     alias: $ =>
-      choice(
+      prec.right(choice(
         seq(
           $.identifier,
           optional(choice($.column_names, $.column_definitions)),
         ),
         $.column_definitions,
-      ),
+      )),
     _aliased_expression: $ => seq($._expression, optional(kw("AS")), $.alias),
     column_names: $ => seq("(", commaSep1($.identifier), ")"),
     column_definitions: $ => seq("(", commaSep1($.table_column), ")"),
     _aliasable_expression: $ =>
       prec.right(choice($._expression, $._aliased_expression)),
-    select_clause_body: $ =>
-      commaSep1(
+    
+    select_clause_body: $ => 
+      prec.right(commaSep1(
         seq(
+          optional(kw("DISTINCT")), // new
           $._aliasable_expression,
           optional(seq(kw("INTO"), field("into", $.identifier))),
         ),
-      ),
+      )), 
     select_clause: $ =>
       prec.right(seq(kw("SELECT"), optional($.select_clause_body))),
+    
     from_clause: $ => seq(kw("FROM"), commaSep1($._from_item)),
     _from_item: $ =>
       choice(
+        $.join_clause,
+        seq("(", $.join_clause, ")"),
         seq(
           optional(kw("ONLY")),
           $._aliasable_expression,
           optional($.tablesample_clause),
         ),
-        seq("(", $.join_clause, ")"),
-        $.join_clause,
       ),
     tablesample_clause: $ =>
       seq(kw("TABLESAMPLE"), $.function_call, optional($.repeatable_clause)),
     repeatable_clause: $ =>
       seq(kw("REPEATABLE"), "(", field("seed", $._expression), ")"),
-    rows_from_expression: $ =>
-      prec.right(
-        seq(
-          optional(kw("LATERAL")),
-          kw("ROWS FROM"),
-          "(",
-          commaSep1(seq($.function_call, optional(seq(kw("AS"), $.alias)))),
-          ")",
-          optional($.with_ordinality),
-        ),
-      ),
 
     join_clause: $ =>
-      seq(
-        $._from_item,
-        optional(kw("NATURAL")),
-        optional($.join_type),
-        kw("JOIN"),
-        $._from_item,
-        choice($.join_condition, $.using_clause),
+      prec.left(
+        seq(
+          $._from_item,
+          optional(kw("NATURAL")),
+          optional($.join_type),
+          kw("JOIN"),
+          $._from_item,
+          optional(choice($.join_condition, $.using_clause)),
+        )
       ),
+    join_condition: $ => seq(kw("ON"), $._expression),
     join_type: $ =>
       seq(
         choice(
@@ -978,10 +995,11 @@ module.exports = grammar({
           ),
         ),
       ),
-    join_condition: $ => seq(kw("ON"), $._expression),
-
+    
     select_subexpression: $ =>
-      prec(1, seq(optional(kw("LATERAL")), "(", $.select_statement, ")")),
+      prec(1, 
+        seq(optional(kw("LATERAL")), "(", $.select_statement, ")")
+      ),
 
     // UPDATE
     _update_statement: $ =>
@@ -1024,6 +1042,7 @@ module.exports = grammar({
     conditional_expression: $ =>
       seq(
         kw("CASE"),
+        optional($._identifier), // new
         repeat1(seq(kw("WHEN"), $._expression, kw("THEN"), $._expression)),
         optional(seq(kw("ELSE"), $._expression)),
         kw("END"),
@@ -1032,8 +1051,9 @@ module.exports = grammar({
     in_expression: $ =>
       prec.left(
         PREC.comparative,
-        seq($._expression, optional(kw("NOT")), kw("IN"), $.tuple),
+        seq($._expression, optional(kw("NOT")), kw("IN"), choice($.tuple, $.select_subexpression)) // new
       ),
+      
     tuple: $ =>
       seq(
         // TODO: maybe collapse with function arguments, but make sure to preserve clarity
@@ -1043,13 +1063,13 @@ module.exports = grammar({
       ),
     // TODO: named constraints
     references_constraint: $ =>
-      seq(
+      prec.left(seq( // new
         kw("REFERENCES"),
         $._identifier,
         optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
         repeat(choice($.on_update_action, $.on_delete_action)),
-      ),
+      )),
     on_update_action: $ =>
       seq(kw("ON UPDATE"), field("action", $._constraint_action)),
     on_delete_action: $ =>
@@ -1073,17 +1093,19 @@ module.exports = grammar({
           "(",
           optional(field("arguments", $._function_call_arguments)),
           ")",
-          optional($.with_ordinality),
           optional($.within_group_clause),
           optional($.filter_clause),
           optional($.over_clause),
         ),
       ),
     _function_call_arguments: $ =>
-      seq(
-        optional(choice(kw("ALL"), kw("DISTINCT"))),
-        commaSep1($._expression),
-        optional($.order_by_clause),
+      choice(
+        seq(
+          optional(choice(kw("ALL"), kw("DISTINCT"))),
+          commaSep1($._expression),
+          optional($.order_by_clause),
+        ),
+        seq($._expression, kw("AS"), $._type), // argument of function cast()
       ),
     within_group_clause: $ =>
       seq(kw("WITHIN GROUP"), "(", $.order_by_clause, ")"),
@@ -1134,10 +1156,9 @@ module.exports = grammar({
 
     _parenthesized_expression: $ =>
       prec.left(PREC.unary, seq("(", $._expression, ")")),
-    with_ordinality: $ => kw("WITH ORDINALITY"),
     is_expression: $ =>
       prec.left(
-        PREC.comparative,
+        PREC.primary,
         seq(
           $._expression,
           kw("IS"),
@@ -1148,7 +1169,7 @@ module.exports = grammar({
     distinct_from: $ => prec.left(seq(kw("DISTINCT FROM"), $._expression)),
     boolean_expression: $ =>
       choice(
-        prec.left(PREC.unary, seq(kw("NOT"), $._expression)),
+        prec.left(5, seq(kw("NOT"), $._expression)), // fix the precedence
         prec.left(PREC.and, seq($._expression, kw("AND"), $._expression)),
         prec.left(PREC.or, seq($._expression, kw("OR"), $._expression)),
       ),
@@ -1177,7 +1198,9 @@ module.exports = grammar({
       );
     },
 
-    _unquoted_identifier: $ => /[a-zA-Z0-9_]+/,
+    _time_type: $ => choice(kw("DATE"), kw("TIME"), kw("DATETIME"), kw("TIMESTAMP")), // new
+    time: $ => seq($._time_type, $.string), // new
+    _unquoted_identifier: $ => choice(/[a-zA-Z0-9_]+/, $._time_type, kw("AT")),
     _quoted_identifier: $ =>
       choice(
         seq("`", field("name", /[^`]*/), "`"), // MySQL style quoting
@@ -1185,7 +1208,7 @@ module.exports = grammar({
       ),
     identifier: $ => choice($._unquoted_identifier, $._quoted_identifier),
     dotted_name: $ => prec.left(PREC.primary, sep2($.identifier, ".")),
-    _identifier: $ => choice($.identifier, $.dotted_name),
+    _identifier: $ => choice($.time, $.identifier, $.dotted_name),  // 'time', 'date', 'datetime', 'timestamp' can be identifiers in MySQL
     string: $ =>
       choice(
         seq("'", field("content", alias(/(''|[^'])*/, $.content)), "'"),
@@ -1263,6 +1286,7 @@ module.exports = grammar({
         [PREC.multiplicative, choice(...multiplicative_operators)],
         [PREC.additive, choice(...additive_operators)],
         [PREC.comparative, choice(...comparative_operators)],
+        [PREC.comparative, choice(kw("LIKE"), kw("NOT LIKE"))]
       ];
 
       return choice(
@@ -1279,12 +1303,36 @@ module.exports = grammar({
       );
     },
 
+    between_expression: $ =>
+      prec.left(
+        PREC.comparative,
+        seq(
+          $._expression,
+          optional(kw("NOT")), kw("BETWEEN"),
+          $._expression,
+          kw("AND"),
+          $._expression
+        )
+      ), // new
+
+    exists_expression: $ => prec.left(4, seq(kw("EXISTS"), $._expression)), // new
     binary_operator: $ => choice("=", "&&", "||"),
     asterisk_expression: $ => choice("*", seq($._identifier, ".*")),
-    interval_expression: $ => seq(token(prec(1, kw("INTERVAL"))), $.string),
+    interval_expression: $ =>
+      prec.left(
+        seq(
+          token(prec(1, kw("INTERVAL"))), 
+          choice(
+            seq(choice($.number, $.string), $._identifier),  // interval '3' day 
+            $.string  // interval '3 day'
+          )
+        )
+      ), // new, 'interval' can't be identifiers in MySQL
     argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
       choice(
+        $.between_expression, // new
+        $.exists_expression, // new
         $.interval_expression,
         $.function_call,
         $.string,
@@ -1307,7 +1355,6 @@ module.exports = grammar({
         $.argument_reference,
         $.select_subexpression,
         $.at_time_zone_expression,
-        $.rows_from_expression,
       ),
   },
 });
