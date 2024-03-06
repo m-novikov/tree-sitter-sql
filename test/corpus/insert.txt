@@ -20,20 +20,23 @@ INSERT INTO table2 SELECT * FROM generate_series(1, 100, 1);
           (content)))))
   (insert_statement
     (identifier)
-    (identifier)
+    (column_names
+      (identifier))
     (values_clause
       (values_clause_item
         (number))))
   (insert_statement
     (identifier)
-    (identifier)
+    (column_names
+      (identifier))
     (values_clause
       (values_clause_item
         (number))))
   (insert_statement
     (identifier)
-    (identifier)
-    (identifier)
+    (column_names
+      (identifier)
+      (identifier))
     (values_clause
       (values_clause_item
         (number)
@@ -83,8 +86,9 @@ INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
 (source_file
   (insert_statement
     (identifier)
-    (identifier)
-    (identifier)
+    (column_names
+      (identifier)
+      (identifier))
     (values_clause
       (values_clause_item
         (number)
@@ -98,7 +102,8 @@ INSERT INTO table1(c1, c2) VALUES (1, 'a'), (2, 'b') ORDER BY c1, c2 DESC;
         (order_expression
           (identifier))
         (order_expression
-          (identifier))))))
+          (identifier)
+          (order))))))
 
 ================================================================================
 INSERT statement values with limit
@@ -318,3 +323,244 @@ INSERT INTO table1 VALUES (1, 'a'), (2, 'b') FETCH NEXT 1 ROWS ONLY;
           (content)))
       (fetch_clause
         (number)))))
+
+================================================================================
+INSERT statement overriding value
+================================================================================
+
+INSERT INTO table1 OVERRIDING USER VALUE VALUES (1, 'a'), (2, 'b');
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (overriding_value)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content)))
+      (values_clause_item
+        (number)
+        (string
+          (content))))))
+
+================================================================================
+INSERT statement default values
+================================================================================
+
+INSERT INTO table1 DEFAULT VALUES;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (default_values)))
+
+================================================================================
+INSERT statement ON CONFLICT
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO NOTHING;
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT ON CONSTRAINT constraint_name DO NOTHING;
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT col1 DO NOTHING;
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT col1 WHERE a < 0 DO NOTHING;
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT func(a, b) DO NOTHING;
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT (a + b::INTEGER) DO NOTHING;
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b';
+INSERT INTO table1 VALUES (1, 'a') ON CONFLICT DO UPDATE SET a = 0, b = 'b' WHERE a < 0;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_action
+        (do_nothing))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_target
+        (on_constraint
+          (identifier)))
+      (conflict_action
+        (do_nothing))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_target
+        (index_item
+          (identifier)))
+      (conflict_action
+        (do_nothing))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_target
+        (index_item
+          (identifier))
+        (where_clause
+          (binary_expression
+            (identifier)
+            (number))))
+      (conflict_action
+        (do_nothing))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_target
+        (index_item
+          (function_call
+            (identifier)
+            (identifier)
+            (identifier))))
+      (conflict_action
+        (do_nothing))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_target
+        (index_item
+          (binary_expression
+            (identifier)
+            (type_cast
+              (identifier)
+              (type
+                (identifier))))))
+      (conflict_action
+        (do_nothing))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_action
+        (do_update
+          (set_clause
+            (assignment_expression
+              (identifier)
+              (number))
+            (assignment_expression
+              (identifier)
+              (string
+                (content))))))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (on_conflict
+      (conflict_action
+        (do_update
+          (set_clause
+            (assignment_expression
+              (identifier)
+              (number))
+            (assignment_expression
+              (identifier)
+              (string
+                (content))))
+          (where_clause
+            (binary_expression
+              (identifier)
+              (number))))))))
+
+================================================================================
+INSERT statement RETURNING
+================================================================================
+
+INSERT INTO table1 VALUES (1, 'a') RETURNING a;
+INSERT INTO table1 VALUES (1, 'a') RETURNING a + b::INTEGER;
+INSERT INTO table1 VALUES (1, 'a') RETURNING a + 1 r;
+INSERT INTO table1 VALUES (1, 'a') RETURNING a + 1 AS r;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (returning_clause
+      (identifier)))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (returning_clause
+      (binary_expression
+        (identifier)
+        (type_cast
+          (identifier)
+          (type
+            (identifier))))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (returning_clause
+      (binary_expression
+        (identifier)
+        (number))
+      (alias
+        (identifier))))
+  (insert_statement
+    (identifier)
+    (values_clause
+      (values_clause_item
+        (number)
+        (string
+          (content))))
+    (returning_clause
+      (binary_expression
+        (identifier)
+        (number))
+      (alias
+        (identifier)))))
